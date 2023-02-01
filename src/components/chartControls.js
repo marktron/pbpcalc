@@ -1,8 +1,48 @@
 import * as React from "react";
+import styled from "styled-components";
+
+const ControlPanel = styled.div`
+  background-color: ${(props) => props.theme.colors.blue_dark};
+  color: ${(props) => props.theme.colors.white};
+  padding: 25px;
+  border-radius: 30px;
+  font-size: 0.8em;
+  label {
+    display: block;
+  }
+`;
+const ControlRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2px 0;
+
+  input {
+  }
+  span {
+    text-align: center;
+  }
+`;
 
 export default function ChartControls(props) {
+  const updateControlInfo = (i, value, type) => {
+    let newTimingData = [...props.timingData];
+    switch (type) {
+      case "SPEED":
+        newTimingData[i].speedToControl = value;
+        break;
+      case "TIME":
+        newTimingData[i].timeAtControl = value;
+        break;
+      default:
+        break;
+    }
+    props.setTimingData(newTimingData);
+    return true;
+  };
+
   return (
-    <>
+    <ControlPanel>
       <label>
         Starting Wave
         <select
@@ -25,18 +65,19 @@ export default function ChartControls(props) {
           <option value="L">L – 18:45</option>
           <option value="M">M – 19:00</option>
           <option value="N">N – 19:15</option>
-          {/* <option value="O">O – 19:30</option> */}
-          <option value="P">P – 19:30</option>
-          <option value="Q">Q – 19:45</option>
-          <option value="R">R – 20:00</option>
-          <option value="S">S – 20:15</option>
-          <option value="T">T – 20:30</option>
-          <option value="U">U – 20:45</option>
-          <option value="V">V – 21:00</option>
-          <option value="W">W – 04:45</option>
-          <option value="X">X – 05:00</option>
-          <option value="Y">Y – 05:15</option>
-          <option value="Z">Z – 05:30</option>
+          <option value="O">O – 19:30</option>
+          <option value="P">P – 19:45</option>
+          <option value="Q">Q – 20:00</option>
+          <option value="R">R – 20:15</option>
+          <option value="S">S – 20:30</option>
+          <option value="T">T – 20:45</option>
+          <option value="U">U – 21:00</option>
+          <option value="V">V – 04:45</option>
+          <option value="W">W – 05:00</option>
+          <option value="X">X – 05:15</option>
+          <option value="Y">Y – 05:30</option>
+          <option value="Z">Z – 05:45</option>
+          <option value="+">+ – 06:00</option>
         </select>
       </label>
       <label>
@@ -51,6 +92,43 @@ export default function ChartControls(props) {
           onChange={(e) => props.setAvgSpeed(e.target.value)}
         />
       </label>
-    </>
+      <label>
+        Average Time at Controls (hours)
+        <input
+          type="number"
+          id="avgCtrlTimePicker"
+          name="avgCtrlTimePicker"
+          min="0"
+          max="10"
+          step="0.25"
+          value={props.avgCtrlTime}
+          onChange={(e) => props.setAvgCtrlTime(e.target.value)}
+        />
+      </label>
+      {props?.timingData?.map((row, i) => (
+        <ControlRow key={i}>
+          <input
+            type="number"
+            id={"speedPicker_" + i}
+            name={"speedPicker_" + i}
+            min="10"
+            max="40"
+            value={row.speedToControl ? row.speedToControl : props.avgSpeed}
+            onChange={(e) => updateControlInfo(i, e.target.value, "SPEED")}
+          />
+          <span>{row.location}</span>
+          <input
+            type="number"
+            id={"ctrlTimePicker_" + i}
+            name={"ctrlTimePicker_" + i}
+            min="0"
+            max="10"
+            step="0.25"
+            value={row.timeAtControl ? row.timeAtControl : props.avgCtrlTime}
+            onChange={(e) => updateControlInfo(i, e.target.value, "TIME")}
+          />
+        </ControlRow>
+      ))}
+    </ControlPanel>
   );
 }

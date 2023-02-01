@@ -3,68 +3,57 @@ import { useState } from "react";
 import styled from "styled-components";
 import Chart from "../components/chart";
 import ChartControls from "../components/chartControls";
+import startWaves from "../data/startWaves";
+import controls from "../data/controls";
 const Page = styled.main`
-  padding: 20px;
 `;
 
 const PageHeadline = styled.h1`
-  font-weight: 800;
+  font-weight: 900;
+  font-size: 2.5em;
+  letter-spacing: -0.02em;
+  line-height: 1;
   color: ${(props) => props.theme.colors.blue_dark};
+  text-align: center;
+  background: ${(props) => props.theme.colors.blue_light};
+  padding: 40px;
+  border-bottom: solid 3px ${(props) => props.theme.colors.blue_dark};
 `;
 const ContentWrapper = styled.section`
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  margin-top: 20px;
+  margin: 30px;
 `;
 const Controls = styled.div`
-  margin-right: 20px;
+  margin-right: 30px;
   width: 20%;
 `;
 const ChartWrapper = styled.div`
   flex-grow: 1;
 `;
 
-// TODO: Confirm that there's no wave O
-const startWaves = [
-  { wave: "A", startTime: "16:00", timeLimit: 80 },
-  { wave: "B", startTime: "16:15", timeLimit: 80 },
-  { wave: "C", startTime: "16:30", timeLimit: 80 },
-  { wave: "D", startTime: "16:45", timeLimit: 80 },
-  { wave: "E", startTime: "17:00", timeLimit: 80 },
-  { wave: "F", startTime: "17:15", timeLimit: 90 },
-  { wave: "G", startTime: "17:30", timeLimit: 90 },
-  { wave: "H", startTime: "17:45", timeLimit: 90 },
-  { wave: "I", startTime: "18:00", timeLimit: 90 },
-  { wave: "J", startTime: "18:15", timeLimit: 90 },
-  { wave: "K", startTime: "18:30", timeLimit: 90 },
-  { wave: "L", startTime: "18:45", timeLimit: 90 },
-  { wave: "M", startTime: "19:00", timeLimit: 90 },
-  { wave: "N", startTime: "19:15", timeLimit: 90 },
-  { wave: "P", startTime: "19:30", timeLimit: 90 },
-  { wave: "Q", startTime: "19:45", timeLimit: 90 },
-  { wave: "R", startTime: "20:00", timeLimit: 90 },
-  { wave: "S", startTime: "20:15", timeLimit: 90 },
-  { wave: "T", startTime: "20:30", timeLimit: 90 },
-  { wave: "U", startTime: "20:45", timeLimit: 90 },
-  { wave: "V", startTime: "21:00", timeLimit: 90 },
-  { wave: "W", startTime: "04:45", timeLimit: 90 },
-  { wave: "X", startTime: "05:00", timeLimit: 84 },
-  { wave: "Y", startTime: "05:15", timeLimit: 84 },
-  { wave: "Z", startTime: "05:30", timeLimit: 84 },
-];
+let timingDataInit = [];
+
+for (let i = 0; i < controls.length; i++) {
+  timingDataInit.push({
+    distance: controls[i].distance,
+    location: controls[i].location,
+    speedToControl: null,
+    timeAtControl: null,
+    type: controls[i].type,
+  });
+}
 
 const IndexPage = (props) => {
-  const [startWave, setStartWave] = useState("");
+  const [startWave, setStartWave] = useState("G");
   const [avgSpeed, setAvgSpeed] = useState(20);
-
-  let waveInfo = startWave
-    ? startWaves.find(({ wave }) => wave === startWave)
-    : null;
-
+  const [avgCtrlTime, setAvgCtrlTime] = useState(1);
+  const [timingData, setTimingData] = useState(timingDataInit);
+  let waveInfo = startWaves.find(({ wave }) => wave === startWave);
   return (
     <Page>
-      <PageHeadline>Paris Brest Paris Time Calculator</PageHeadline>
+      <PageHeadline>(Super Unofficial) 2023 Paris–Brest–Paris Time Calculator</PageHeadline>
       <ContentWrapper>
         <Controls>
           <ChartControls
@@ -72,10 +61,20 @@ const IndexPage = (props) => {
             setStartWave={setStartWave}
             avgSpeed={avgSpeed}
             setAvgSpeed={setAvgSpeed}
+            avgCtrlTime={avgCtrlTime}
+            setAvgCtrlTime={setAvgCtrlTime}
+            timingData={timingData}
+            setTimingData={setTimingData}
           />
         </Controls>
         <ChartWrapper>
-          <Chart waveInfo={waveInfo} avgSpeed={avgSpeed} props={props} />
+          <Chart
+            waveInfo={waveInfo}
+            avgSpeed={avgSpeed}
+            avgCtrlTime={avgCtrlTime}
+            props={props}
+            timingData={timingData}
+          />
         </ChartWrapper>
       </ContentWrapper>
     </Page>
