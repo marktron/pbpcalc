@@ -12,7 +12,6 @@ const Theme = {
     gray_light_translucent: "rgba(175,181,188,0.1)",
   },
   page_background: "rgb(255,255,254)",
-  // page_background: "rgba(234,228,223,1)",
 };
 
 export default Theme;
