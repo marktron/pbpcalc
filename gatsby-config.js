@@ -40,7 +40,7 @@ module.exports = {
       resolve: "gatsby-plugin-web-font-loader",
       options: {
         google: {
-          families: ["Work Sans:200,400,600,800"],
+          families: ["Work Sans:400,600,800"],
         },
       },
     },

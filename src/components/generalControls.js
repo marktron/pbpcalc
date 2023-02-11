@@ -1,14 +1,40 @@
 import * as React from "react";
 import styled from "styled-components";
+import chroma from "chroma-js";
 
 const ControlPanel = styled.div`
-  background-color: ${(props) => props.theme.colors.blue_dark};
-  color: ${(props) => props.theme.colors.white};
-  padding: 25px;
-  border-radius: 30px;
-  font-size: 0.8em;
+  background-color: ${(props) =>
+    chroma(props.theme.colors.gray_light).alpha(0.33)};
+  color: ${(props) => props.theme.colors.blue_dark};
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  line-height: 1;
+  strong {
+    font-weight: 800;
+  }
   label {
-    display: block;
+    font-weight: 400;
+    input,
+    select {
+      margin-left: 10px;
+      border: solid 1px transparent;
+      padding: 2px;
+      font-weight: 400;
+      transition: border 0.2s ease;
+      outline: none;
+      border-radius:5px;
+      &:focus {
+        border-color: ${(props) => props.theme.colors.gray_light};
+      }
+    }
+    input {
+      width: 60px;
+    }
   }
 `;
 const ControlRow = styled.div`
@@ -24,25 +50,26 @@ const ControlRow = styled.div`
   }
 `;
 
-export default function ChartControls(props) {
-  const updateControlInfo = (i, value, type) => {
-    let newTimingData = [...props.timingData];
-    switch (type) {
-      case "SPEED":
-        newTimingData[i].speedToControl = value;
-        break;
-      case "TIME":
-        newTimingData[i].timeAtControl = value;
-        break;
-      default:
-        break;
-    }
-    props.setTimingData(newTimingData);
-    return true;
-  };
+export default function GeneralControls(props) {
+  // const updateControlInfo = (i, value, type) => {
+  //   let newTimingData = [...props.timingData];
+  //   switch (type) {
+  //     case "SPEED":
+  //       newTimingData[i].speedToControl = value;
+  //       break;
+  //     case "TIME":
+  //       newTimingData[i].timeAtControl = value;
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  //   props.setTimingData(newTimingData);
+  //   return true;
+  // };
 
   return (
     <ControlPanel>
+    <strong>General settings</strong>
       <label>
         Starting Wave
         <select
@@ -81,7 +108,7 @@ export default function ChartControls(props) {
         </select>
       </label>
       <label>
-        Average Speed (km/h)
+        Speed (km/h)
         <input
           type="number"
           id="avgSpeedPicker"
@@ -93,7 +120,7 @@ export default function ChartControls(props) {
         />
       </label>
       <label>
-        Average Time at Controls (hours)
+        Time at Controls (hours)
         <input
           type="number"
           id="avgCtrlTimePicker"
@@ -105,7 +132,7 @@ export default function ChartControls(props) {
           onChange={(e) => props.setAvgCtrlTime(e.target.value)}
         />
       </label>
-      {props?.timingData?.map((row, i) => (
+      {/* {props?.timingData?.map((row, i) => (
         <ControlRow key={i}>
           <input
             type="number"
@@ -128,7 +155,7 @@ export default function ChartControls(props) {
             onChange={(e) => updateControlInfo(i, e.target.value, "TIME")}
           />
         </ControlRow>
-      ))}
+      ))} */}
     </ControlPanel>
   );
 }

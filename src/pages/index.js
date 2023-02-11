@@ -1,39 +1,98 @@
 import * as React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { DateTime } from "luxon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCanadianMapleLeaf } from "@fortawesome/free-brands-svg-icons";
 import Chart from "../components/chart";
-import ChartControls from "../components/chartControls";
+import GeneralControls from "../components/generalControls";
 import startWaves from "../data/startWaves";
 import controls from "../data/controls";
-const Page = styled.main`
-`;
+import TimingTable from "../components/timingTable";
+const Page = styled.main``;
 
 const PageHeadline = styled.h1`
-  font-weight: 900;
-  font-size: 2.5em;
+  font-weight: 800;
+  font-size: 3rem;
   letter-spacing: -0.02em;
   line-height: 1;
   color: ${(props) => props.theme.colors.blue_dark};
   text-align: center;
-  background: ${(props) => props.theme.colors.blue_light};
-  padding: 40px;
-  border-bottom: solid 3px ${(props) => props.theme.colors.blue_dark};
+  background: -webkit-linear-gradient(
+    45deg,
+    hsl(231deg 30% 26%) 0%,
+    hsl(223deg 34% 31%) 21%,
+    hsl(216deg 38% 35%) 30%,
+    hsl(211deg 42% 39%) 39%,
+    hsl(207deg 47% 42%) 46%,
+    hsl(203deg 52% 45%) 54%,
+    hsl(200deg 57% 48%) 61%,
+    hsl(197deg 62% 50%) 69%,
+    hsl(194deg 72% 52%) 79%,
+    hsl(192deg 83% 55%) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 40px;
+  /* border-bottom: solid 1px ${(props) => props.theme.colors.gray_light}; */
+  em {
+    font-weight: 600;
+    font-size: 66%;
+    font-style: normal;
+    display: block;
+  }
 `;
 const ContentWrapper = styled.section`
   display: flex;
+  flex-direction: column;
+  margin: 30px auto;
+  max-width: 1400px;
+`;
+const Controls = styled.div``;
+
+const FlagWrapper = styled.div`
+  display: flex;
   flex-direction: row;
-  align-items: stretch;
-  margin: 30px;
+  height: 10px;
+  box-shadow: 0 -10px 25px ${(props) => props.theme.colors.gray_dark};
 `;
-const Controls = styled.div`
-  margin-right: 30px;
-  width: 20%;
+const StripeBlue = styled.div`
+  background-color: ${(props) => props.theme.colors.blue_dark};
+  width: 33.333%;
 `;
-const ChartWrapper = styled.div`
-  flex-grow: 1;
+const StripeWhite = styled.div`
+  background-color: ${(props) => props.theme.colors.white};
+  width: 33.333%;
+`;
+const StripeRed = styled.div`
+  background-color: ${(props) => props.theme.colors.red};
+  width: 33.333%;
+`;
+
+const Footer = styled.footer`
+  font-size: 80%;
+  text-align: center;
+  padding-bottom: 20px;
+  a {
+    color: ${(props) => props.theme.colors.gray_med};
+    border-bottom: solid 1px ${(props) => props.theme.colors.gray_light};
+    text-decoration: none;
+    &:hover {
+      color: ${(props) => props.theme.colors.blue_dark};
+      background: ${(props) => props.theme.colors.blue_dark_translucent};
+      border-bottom-color: ${(props) =>
+        props.theme.colors.blue_dark_translucent};
+    }
+  }
+  svg {
+    margin-right: 5px;
+    color: ${(props) => props.theme.colors.red};
+  }
 `;
 
 let timingDataInit = [];
+let timing = [];
 
 for (let i = 0; i < controls.length; i++) {
   timingDataInit.push({
@@ -51,36 +110,124 @@ const IndexPage = (props) => {
   const [avgCtrlTime, setAvgCtrlTime] = useState(1);
   const [timingData, setTimingData] = useState(timingDataInit);
   let waveInfo = startWaves.find(({ wave }) => wave === startWave);
+
+  // Calculate all the timing stuff…
+  let elapsedTime = 0.0;
+  let t = 0;
+  for (let i = 0; i < timingData.length; i++) {
+    if (i > 0) {
+      elapsedTime = (
+        Number(timing[t - 1].elapsedTime) +
+        Number(timingData[i].distance - timingData[i - 1].distance) /
+          Number(
+            timingData[i]?.speedToControl
+              ? timingData[i].speedToControl
+              : avgSpeed
+          )
+      ).toFixed(3);
+      timing[t] = {
+        distance: timingData[i].distance,
+        elapsedTime: Number(elapsedTime).toFixed(3),
+        location: timingData[i].location,
+        type: timingData[i].type,
+      };
+      t++;
+      if (i < timingData.length - 1) {
+        // Add time stopped at controls (but not the final one)
+        elapsedTime = (
+          Number(elapsedTime) +
+          Number(
+            timingData[i].timeAtControl
+              ? timingData[i].timeAtControl
+              : avgCtrlTime
+          )
+        ).toFixed(3);
+        timing[t] = {
+          distance: timingData[i].distance,
+          elapsedTime: elapsedTime,
+          location: timingData[i].location,
+          type: timingData[i].type,
+        };
+        t++;
+      }
+    } else {
+      // First control (starting point)
+      timing[t] = {
+        distance: timingData[i].distance,
+        elapsedTime: Number(elapsedTime).toFixed(3),
+        location: timingData[i].location,
+        type: timingData[i].type,
+      };
+      t++;
+    }
+  }
+
+  let startTime = DateTime.fromISO(
+    "2023-08-" +
+      (waveInfo.timeLimit === 84 ? "21" : "20") +
+      "T" +
+      waveInfo.startTime +
+      ":00.000"
+  );
+  console.log("🔔 timing", timing);
+  console.log("🔔 timingData", timingData);
   return (
-    <Page>
-      <PageHeadline>(Super Unofficial) 2023 Paris–Brest–Paris Time Calculator</PageHeadline>
-      <ContentWrapper>
-        <Controls>
-          <ChartControls
-            startWave={startWave}
-            setStartWave={setStartWave}
-            avgSpeed={avgSpeed}
-            setAvgSpeed={setAvgSpeed}
-            avgCtrlTime={avgCtrlTime}
-            setAvgCtrlTime={setAvgCtrlTime}
-            timingData={timingData}
-            setTimingData={setTimingData}
-          />
-        </Controls>
-        <ChartWrapper>
+    <>
+      <Page>
+        <FlagWrapper>
+          <StripeBlue></StripeBlue>
+          <StripeWhite></StripeWhite>
+          <StripeRed></StripeRed>
+        </FlagWrapper>
+        <PageHeadline>
+          <em>(Totally Unofficial)</em> 2023 Paris–Brest–Paris Ride Calculator
+        </PageHeadline>
+        <ContentWrapper>
           <Chart
             waveInfo={waveInfo}
             avgSpeed={avgSpeed}
             avgCtrlTime={avgCtrlTime}
             props={props}
+            timing={timing}
             timingData={timingData}
           />
-        </ChartWrapper>
-      </ContentWrapper>
-    </Page>
+          <Controls>
+            <GeneralControls
+              startWave={startWave}
+              setStartWave={setStartWave}
+              avgSpeed={avgSpeed}
+              setAvgSpeed={setAvgSpeed}
+              avgCtrlTime={avgCtrlTime}
+              setAvgCtrlTime={setAvgCtrlTime}
+              timingData={timingData}
+              setTimingData={setTimingData}
+            />
+          </Controls>
+          <TimingTable
+            timing={timing}
+            avgSpeed={avgSpeed}
+            avgCtrlTime={avgCtrlTime}
+            controls={controls}
+            startTime={startTime}
+            timingData={timingData}
+            setTimingData={setTimingData}
+          />
+        </ContentWrapper>
+      </Page>
+      <Footer>
+        <FontAwesomeIcon icon={faCanadianMapleLeaf} />
+        Made in Canada by{" "}
+        <a href="https://markallen.io" target="_blank" rel="noreferrer">
+          Mark Allen
+        </a>{" "}
+        (Starting wave K, say hi when you pass me!)
+      </Footer>
+    </>
   );
 };
 
 export default IndexPage;
 
-export const Head = () => <title>Home Page</title>;
+export const Head = () => (
+  <title>(Totally Unofficial) 2023 Paris–Brest–Paris Ride Calculator</title>
+);

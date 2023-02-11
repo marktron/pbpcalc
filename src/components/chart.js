@@ -4,7 +4,6 @@ import { Scatter } from "react-chartjs-2";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { DateTime, Duration, Interval } from "luxon";
 import Theme from "../components/theme";
-import TimingTable from "./timingTable";
 import controls from "../data/controls";
 
 import {
@@ -34,8 +33,9 @@ let timing = [];
 const ChartWrapper = styled.div`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 30px;
-  padding: 15px;
-  border: solid 3px ${(props) => props.theme.colors.blue_dark};
+  padding: 0;
+  min-height: 500px;
+  /* border: solid 3px ${(props) => props.theme.colors.blue_dark}; */
 `;
 
 const Projection = styled.div`
@@ -144,6 +144,7 @@ const Chart = (props) => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false,
     spanGaps: true,
     parsing: {
       xAxisKey: "distance",
@@ -181,7 +182,7 @@ const Chart = (props) => {
       {
         label: "Projected Time",
         id: 1,
-        data: timing,
+        data: props?.timing,
         showLine: true,
         borderColor: Theme.colors.blue_light,
         backgroundColor: Theme.colors.blue_light,
@@ -220,62 +221,8 @@ const Chart = (props) => {
     ],
   };
 
-  if (props?.timingData) {
-    let elapsedTime = 0.0;
-    let t = 0;
-    for (let i = 0; i < props.timingData.length; i++) {
-      if (i > 0) {
-        elapsedTime = (
-          Number(timing[t - 1].elapsedTime) +
-          Number(
-            props.timingData[i].distance - props.timingData[i - 1].distance
-          ) /
-            Number(
-              props.timingData[i]?.speedToControl
-                ? props.timingData[i].speedToControl
-                : props.avgSpeed
-            )
-        ).toFixed(3);
-        timing[t] = {
-          distance: props.timingData[i].distance,
-          elapsedTime: Number(elapsedTime).toFixed(3),
-          location: props.timingData[i].location,
-          type: props.timingData[i].type,
-        };
-        t++;
-        if (i < props.timingData.length - 1) {
-          // Add time stopped at controls (but not the final one)
-          elapsedTime = (
-            Number(elapsedTime) +
-            Number(
-              props.timingData[i].timeAtControl
-                ? props.timingData[i].timeAtControl
-                : props?.avgCtrlTime
-            )
-          ).toFixed(3);
-          timing[t] = {
-            distance: props.timingData[i].distance,
-            elapsedTime: elapsedTime,
-            location: props.timingData[i].location,
-            type: props.timingData[i].type,
-          };
-          t++;
-        }
-      } else {
-        // First control (starting point)
-        timing[t] = {
-          distance: props.timingData[i].distance,
-          elapsedTime: Number(elapsedTime).toFixed(3),
-          location: props.timingData[i].location,
-          type: props.timingData[i].type,
-        };
-        t++;
-      }
-    }
-  }
-
   let elapsedTimeDisplay = Duration.fromDurationLike({
-    hours: timing[timing.length - 1].elapsedTime,
+    hours: props?.timing[props?.timing.length - 1].elapsedTime,
   }).toFormat("hh:mm");
   return (
     <>
@@ -283,7 +230,6 @@ const Chart = (props) => {
         <Scatter datasetIdKey="id" data={data} options={options} />
       </ChartWrapper>
       <Projection>Projected Elapsed Time – {elapsedTimeDisplay}</Projection>
-      <TimingTable timing={timing} controls={controls} startTime={startTime} />
     </>
   );
 };
