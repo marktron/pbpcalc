@@ -37,11 +37,16 @@ module.exports = {
       __key: "pages",
     },
     {
-      resolve: "gatsby-plugin-web-font-loader",
+      resolve: "gatsby-omni-font-loader",
       options: {
-        google: {
-          families: ["Work Sans:400,600,800"],
-        },
+        enableListener: true,
+        preconnect: ["https://fonts.gstatic.com"],
+        web: [
+          {
+            name: "Work Sans",
+            file: "https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;900&display=swap",
+          },
+        ],
       },
     },
   ],
