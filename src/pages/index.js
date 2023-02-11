@@ -228,5 +228,7 @@ const IndexPage = (props) => {
 export default IndexPage;
 
 export const Head = () => (
-  <title>(Totally Unofficial) 2023 Paris–Brest–Paris Ride Calculator</title>
+  <html lang="en">
+    <title>(Totally Unofficial) 2023 Paris–Brest–Paris Ride Calculator</title>
+  </html>
 );
