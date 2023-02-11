@@ -55,7 +55,7 @@ const FlagWrapper = styled.div`
   display: flex;
   flex-direction: row;
   height: 10px;
-  box-shadow: 0 -10px 25px ${(props) => props.theme.colors.gray_dark};
+  box-shadow: 0 -10px 25px ${(props) => props.theme.colors.gray_med};
 `;
 const StripeBlue = styled.div`
   background-color: ${(props) => props.theme.colors.blue_dark};
@@ -169,8 +169,7 @@ const IndexPage = (props) => {
       waveInfo.startTime +
       ":00.000"
   );
-  console.log("🔔 timing", timing);
-  console.log("🔔 timingData", timingData);
+
   return (
     <>
       <Page>
