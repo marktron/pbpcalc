@@ -3,7 +3,7 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `pbp-timing`,
+    title: `pbpcalc`,
     siteUrl: `https://www.yourdomain.tld`,
   },
   plugins: [
