@@ -13,12 +13,37 @@ const CellRightAlign = styled.td`
 const CellLeftAlign = styled.td`
   text-align: left;
 `;
-const HeaderRightAlign = styled.th`
+const CellCenterAlign = styled.td`
+  text-align: center;
+`;
+const HeaderDistance = styled.th`
+  width: 10%;
   text-align: right;
 `;
-const HeaderLeftAlign = styled.th`
+const HeaderSpeed = styled.th`
+  width: 10%;
+  text-align: center;
+`;
+const HeaderElapsed = styled.th`
+  text-align: left;
+  width: 10%;
+`;
+const HeaderControl = styled.th`
   text-align: left;
 `;
+const HeaderArrival = styled.th`
+  text-align: right;
+  width: 10%;
+`;
+const HeaderControlTime = styled.th`
+  width: 10%;
+  text-align: center;
+`;
+const HeaderDeparture = styled.th`
+  text-align: right;
+  width: 10%;
+`;
+
 const TimeTable = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -27,9 +52,11 @@ const TimeTable = styled.table`
     margin-right: 6px;
   }
   input {
-    border: solid 1px transparent;
+    border: solid 1px ${(props) => props.theme.colors.gray_med_translucent};
     border-radius: 5px;
     padding: 2px;
+    background-color: ${(props) => props.theme.colors.gray_light_translucent};
+    width: 50%;
     color: ${(props) => props.theme.colors.gray_med};
     outline: none;
     appearance: none;
@@ -41,6 +68,7 @@ const TimeTable = styled.table`
   tr {
     th {
       border-bottom: solid 1px ${(props) => props.theme.colors.gray_light};
+      font-size: 90%;
     }
     td,
     th {
@@ -57,6 +85,11 @@ const TimeTable = styled.table`
       td {
         color: ${(props) => props.theme.colors.blue_dark};
         background: ${(props) => props.theme.colors.blue_dark_translucent};
+        input {
+          transition: background 0.2s ease, border-color 0.2s ease;
+          background-color: ${(props) => props.theme.colors.white};
+          border-color: ${(props) => props.theme.colors.gray_light};
+        }
       }
     }
   }
@@ -75,28 +108,35 @@ const controlIcon = (type) => {
 };
 
 const TimingTable = (props) => {
-  const { timing, controls, startTime } = props;
+  const { timing, timingData, controls, startTime } = props;
   let rowCounter = 0;
   let displayDate = null;
 
-  const updateControlInfo = (i, value, type) => {
-    let newTimingData = [...props.timingData];
-    switch (type) {
-      case "SPEED":
-        newTimingData[i].speedToControl = value;
-        break;
-      case "TIME":
-        newTimingData[i].timeAtControl = value;
-        break;
-      default:
-        break;
+  const updateControlInfo = (distance, value, type) => {
+    const i = timingData.findIndex((x) => x.distance === distance);
+    if (i > -1) {
+      let newTimingData = [...props.timingData];
+      switch (type) {
+        case "SPEED":
+          newTimingData[i].speedToControl = value;
+          break;
+        case "TIME":
+          newTimingData[i].timeAtControl = value;
+          break;
+        default:
+          break;
+      }
+      props.setTimingData(newTimingData);
+      return false;
+    } else {
+      return false;
     }
-    props.setTimingData(newTimingData);
-    return true;
   };
 
   const renderRow = (row) => {
+    // Really should have made a less dumb data structure here :/
     const controlTiming = timing.filter((r) => r.distance == row.distance);
+    const customControls = timingData.filter((r) => r.distance == row.distance);
     const arrivalDuration = Duration.fromObject({
       hours: controlTiming[0]?.elapsedTime,
     });
@@ -107,13 +147,11 @@ const TimingTable = (props) => {
     if (rowCounter > 0) {
       arrivalTime = rowCounter > 0 ? startTime.plus(arrivalDuration) : null;
       if (arrivalTime.toLocaleString(DateTime.DATE_MED) !== displayDate) {
-        arrivalTimeFormatted = arrivalTime.toLocaleString(
-          DateTime.DATETIME_MED
-        );
+        arrivalTimeFormatted = arrivalTime.toFormat("ccc T");
       } else if (
         arrivalTime.toLocaleString(DateTime.DATE_MED) === displayDate
       ) {
-        arrivalTimeFormatted = arrivalTime.toLocaleString(DateTime.TIME_SIMPLE);
+        arrivalTimeFormatted = arrivalTime.toFormat("T");
       }
       displayDate = arrivalTime.toLocaleString(DateTime.DATE_MED);
     }
@@ -124,15 +162,11 @@ const TimingTable = (props) => {
     if (rowCounter < controls.length - 1) {
       departureTime = startTime.plus(departureDuration);
       if (departureTime.toLocaleString(DateTime.DATE_MED) !== displayDate) {
-        departureTimeFormatted = departureTime.toLocaleString(
-          DateTime.DATETIME_MED
-        );
+        departureTimeFormatted = departureTime.toFormat("ccc T");
       } else if (
         departureTime.toLocaleString(DateTime.DATE_MED) === displayDate
       ) {
-        departureTimeFormatted = departureTime.toLocaleString(
-          DateTime.TIME_SIMPLE
-        );
+        departureTimeFormatted = departureTime.toFormat("T");
       }
       displayDate = departureTime.toLocaleString(DateTime.DATE_MED);
     }
@@ -140,19 +174,29 @@ const TimingTable = (props) => {
     return (
       <tr key={rowCounter}>
         <CellRightAlign>{controlTiming[0]?.distance} km</CellRightAlign>
-        <CellRightAlign>
-          <input
-            type="number"
-            id={"speedPicker_" + rowCounter}
-            name={"speedPicker_" + rowCounter}
-            min="10"
-            max="40"
-            value={row.speedToControl ? row.speedToControl : props.avgSpeed}
-            // onChange={(e) =>
-            //   updateControlInfo(rowCounter, e.target.value, "SPEED")
-            // }
-          />
-        </CellRightAlign>
+        <CellCenterAlign>
+          {controlTiming[0]?.distance !== timing[0].distance && (
+            <input
+              type="number"
+              id={"speedPicker_" + rowCounter}
+              name={"speedPicker_" + rowCounter}
+              min="10"
+              max="40"
+              value={
+                customControls[0]?.speedToControl
+                  ? customControls[0]?.speedToControl
+                  : props.avgSpeed
+              }
+              onChange={(e) =>
+                updateControlInfo(
+                  customControls[0]?.distance,
+                  e.target.value,
+                  "SPEED"
+                )
+              }
+            />
+          )}
+        </CellCenterAlign>
         <CellLeftAlign>
           {rowCounter > 1
             ? Duration.fromDurationLike({
@@ -169,7 +213,32 @@ const TimingTable = (props) => {
           <strong>{controlTiming[0]?.location}</strong>
         </CellLeftAlign>
         <CellRightAlign>{arrivalTimeFormatted}</CellRightAlign>
-        <CellRightAlign>45</CellRightAlign>
+        <CellCenterAlign>
+          {controlTiming[0]?.distance !== timing[0].distance &&
+            controlTiming[0]?.distance !==
+              timing[timing.length -1].distance &&(
+                <input
+                  type="number"
+                  id={"ctrlTimePicker_" + rowCounter}
+                  name={"ctrlTimePicker_" + rowCounter}
+                  min="0"
+                  max="10"
+                  step="0.25"
+                  value={
+                    customControls[0]?.timeAtControl
+                      ? customControls[0]?.timeAtControl
+                      : props.avgCtrlTime
+                  }
+                  onChange={(e) =>
+                    updateControlInfo(
+                      customControls[0]?.distance,
+                      e.target.value,
+                      "TIME"
+                    )
+                  }
+                />
+              )}
+        </CellCenterAlign>
         <CellRightAlign>{departureTimeFormatted}</CellRightAlign>
       </tr>
     );
@@ -180,13 +249,13 @@ const TimingTable = (props) => {
       <TimeTable>
         <thead>
           <tr>
-            <HeaderRightAlign>Distance</HeaderRightAlign>
-            <HeaderRightAlign>Speed</HeaderRightAlign>
-            <HeaderLeftAlign>Elapsed Time</HeaderLeftAlign>
-            <HeaderLeftAlign>Control</HeaderLeftAlign>
-            <HeaderRightAlign>Arrival Time</HeaderRightAlign>
-            <HeaderRightAlign>Time at Control</HeaderRightAlign>
-            <HeaderRightAlign>Departure Time</HeaderRightAlign>
+            <HeaderDistance>Distance</HeaderDistance>
+            <HeaderSpeed>Speed</HeaderSpeed>
+            <HeaderElapsed>Elapsed Time</HeaderElapsed>
+            <HeaderControl>Control</HeaderControl>
+            <HeaderArrival>Arrival Time</HeaderArrival>
+            <HeaderControlTime>Time at Control</HeaderControlTime>
+            <HeaderDeparture>Departure Time</HeaderDeparture>
           </tr>
         </thead>
         <tbody>{controls.map((row) => renderRow(row))}</tbody>

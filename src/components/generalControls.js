@@ -1,10 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
-import chroma from "chroma-js";
 
 const ControlPanel = styled.div`
-  background-color: ${(props) =>
-    chroma(props.theme.colors.gray_light).alpha(0.33)};
+  background-color: ${(props) => props.theme.colors.gray_med_translucent};
   color: ${(props) => props.theme.colors.blue_dark};
   padding: 15px;
   margin: 20px 0;
@@ -27,7 +25,7 @@ const ControlPanel = styled.div`
       font-weight: 400;
       transition: border 0.2s ease;
       outline: none;
-      border-radius:5px;
+      border-radius: 5px;
       &:focus {
         border-color: ${(props) => props.theme.colors.gray_light};
       }
@@ -51,31 +49,23 @@ const ControlRow = styled.div`
 `;
 
 export default function GeneralControls(props) {
-  // const updateControlInfo = (i, value, type) => {
-  //   let newTimingData = [...props.timingData];
-  //   switch (type) {
-  //     case "SPEED":
-  //       newTimingData[i].speedToControl = value;
-  //       break;
-  //     case "TIME":
-  //       newTimingData[i].timeAtControl = value;
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  //   props.setTimingData(newTimingData);
-  //   return true;
-  // };
-
+  const {
+    avgSpeed,
+    setAvgSpeed,
+    avgCtrlTime,
+    setAvgCtrlTime,
+    startWave,
+    setStartWave,
+  } = props;
   return (
     <ControlPanel>
-    <strong>General settings</strong>
+      <strong>General settings</strong>
       <label>
         Starting Wave
         <select
           id="wavePicker"
-          value={props.startWave}
-          onChange={(e) => props.setStartWave(e.target.value)}
+          value={startWave}
+          onChange={(e) => setStartWave(e.target.value)}
         >
           <option value="">Select One</option>
           <option value="A">A – 16:00</option>
@@ -115,8 +105,8 @@ export default function GeneralControls(props) {
           name="avgSpeedPicker"
           min="10"
           max="40"
-          value={props.avgSpeed}
-          onChange={(e) => props.setAvgSpeed(e.target.value)}
+          value={avgSpeed}
+          onChange={(e) => setAvgSpeed(e.target.value)}
         />
       </label>
       <label>
@@ -128,34 +118,10 @@ export default function GeneralControls(props) {
           min="0"
           max="10"
           step="0.25"
-          value={props.avgCtrlTime}
-          onChange={(e) => props.setAvgCtrlTime(e.target.value)}
+          value={avgCtrlTime}
+          onChange={(e) => setAvgCtrlTime(e.target.value)}
         />
       </label>
-      {/* {props?.timingData?.map((row, i) => (
-        <ControlRow key={i}>
-          <input
-            type="number"
-            id={"speedPicker_" + i}
-            name={"speedPicker_" + i}
-            min="10"
-            max="40"
-            value={row.speedToControl ? row.speedToControl : props.avgSpeed}
-            onChange={(e) => updateControlInfo(i, e.target.value, "SPEED")}
-          />
-          <span>{row.location}</span>
-          <input
-            type="number"
-            id={"ctrlTimePicker_" + i}
-            name={"ctrlTimePicker_" + i}
-            min="0"
-            max="10"
-            step="0.25"
-            value={row.timeAtControl ? row.timeAtControl : props.avgCtrlTime}
-            onChange={(e) => updateControlInfo(i, e.target.value, "TIME")}
-          />
-        </ControlRow>
-      ))} */}
     </ControlPanel>
   );
 }

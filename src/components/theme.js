@@ -9,6 +9,7 @@ const Theme = {
     white: "rgba(255,255,254,0.9)",
     gray_light: "rgba(175,181,188,1)",
     gray_med: "rgba(95,108,123,1)",
+    gray_med_translucent: "rgba(95,108,123,0.1)",
     gray_light_translucent: "rgba(175,181,188,0.1)",
   },
   page_background: "rgb(255,255,254)",

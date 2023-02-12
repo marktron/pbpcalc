@@ -12,7 +12,7 @@ import TimingTable from "../components/timingTable";
 const Page = styled.main``;
 
 const PageHeadline = styled.h1`
-  font-weight: 800;
+  font-weight: 900;
   font-size: 3rem;
   letter-spacing: -0.02em;
   line-height: 1;
