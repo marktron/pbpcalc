@@ -35,18 +35,6 @@ const ControlPanel = styled.div`
     }
   }
 `;
-const ControlRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 2px 0;
-
-  input {
-  }
-  span {
-    text-align: center;
-  }
-`;
 
 export default function GeneralControls(props) {
   const {

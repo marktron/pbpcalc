@@ -28,8 +28,6 @@ ChartJS.register(
   Legend
 );
 
-let timing = [];
-
 const ChartWrapper = styled.div`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 30px;
@@ -69,26 +67,42 @@ const Chart = (props) => {
         ":00.000"
     );
     for (let i = 0; i < 4; i++) {
-      // TODO: Account for first 84 hour start times that happen before sunrise
-      // This assumes no one starts after sunset, and the event is less than four nights long
-      let sunsetTime = DateTime.fromISO(
-        `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
-          startTime.day + i
-        }T${sunsetTimeOfDay}`
-      );
+      let sunsetTime = null;
+      let sunriseTime = null;
+      let sunsetHours = 0;
+      let sunriseHours = 0;
+      if (props.waveInfo.timeLimit === 84) {
+        sunsetTime = DateTime.fromISO(
+          `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
+            startTime.day + i - 1
+          }T${sunsetTimeOfDay}`
+        );
+        sunriseTime = DateTime.fromISO(
+          `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
+            startTime.day + i
+          }T${sunriseTimeOfDay}`
+        );
+      } else {
+        sunsetTime = DateTime.fromISO(
+          `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
+            startTime.day + i
+          }T${sunsetTimeOfDay}`
+        );
 
-      let sunsetHours = Interval.fromDateTimes(startTime, sunsetTime).length(
+        sunriseTime = DateTime.fromISO(
+          `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
+            startTime.day + i + 1
+          }T${sunriseTimeOfDay}`
+        );
+      }
+      sunsetHours =
+        i === 0 && props.waveInfo.timeLimit === 84
+          ? 0
+          : Interval.fromDateTimes(startTime, sunsetTime).length("hours");
+      sunriseHours = Interval.fromDateTimes(startTime, sunriseTime).length(
         "hours"
       );
 
-      let sunriseTime = DateTime.fromISO(
-        `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
-          startTime.day + i + 1
-        }T${sunriseTimeOfDay}`
-      );
-      let sunriseHours = Interval.fromDateTimes(startTime, sunriseTime).length(
-        "hours"
-      );
       nightHours[i] = {
         sunset: sunsetHours,
         sunrise: sunriseHours,
@@ -229,7 +243,7 @@ const Chart = (props) => {
       <ChartWrapper>
         <Scatter datasetIdKey="id" data={data} options={options} />
       </ChartWrapper>
-      <Projection>Projected Elapsed Time – {elapsedTimeDisplay}</Projection>
+      <Projection>Projected Time – {elapsedTimeDisplay}</Projection>
     </>
   );
 };

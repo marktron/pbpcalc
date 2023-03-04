@@ -135,8 +135,8 @@ const TimingTable = (props) => {
 
   const renderRow = (row) => {
     // Really should have made a less dumb data structure here :/
-    const controlTiming = timing.filter((r) => r.distance == row.distance);
-    const customControls = timingData.filter((r) => r.distance == row.distance);
+    const controlTiming = timing.filter((r) => r.distance === row.distance);
+    const customControls = timingData.filter((r) => r.distance === row.distance);
     const arrivalDuration = Duration.fromObject({
       hours: controlTiming[0]?.elapsedTime,
     });
