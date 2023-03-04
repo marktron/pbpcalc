@@ -11,36 +11,41 @@ import controls from "../data/controls";
 import TimingTable from "../components/timingTable";
 const Page = styled.main``;
 
-const PageHeadline = styled.h1`
-  font-weight: 900;
-  font-size: 3rem;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  color: ${(props) => props.theme.colors.blue_dark};
-  text-align: center;
-  background: -webkit-linear-gradient(
-    45deg,
-    hsl(231deg 30% 26%) 0%,
-    hsl(223deg 34% 31%) 21%,
-    hsl(216deg 38% 35%) 30%,
-    hsl(211deg 42% 39%) 39%,
-    hsl(207deg 47% 42%) 46%,
-    hsl(203deg 52% 45%) 54%,
-    hsl(200deg 57% 48%) 61%,
-    hsl(197deg 62% 50%) 69%,
-    hsl(194deg 72% 52%) 79%,
-    hsl(192deg 83% 55%) 100%
-  );
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+const PageHeadline = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 40px;
-  /* border-bottom: solid 1px ${(props) => props.theme.colors.gray_light}; */
+  h1 {
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: ${(props) => props.theme.colors.blue_dark};
+    text-align: center;
+    background: -webkit-linear-gradient(
+      45deg,
+      hsl(231deg 30% 26%) 0%,
+      hsl(223deg 34% 31%) 21%,
+      hsl(216deg 38% 35%) 30%,
+      hsl(211deg 42% 39%) 39%,
+      hsl(207deg 47% 42%) 46%,
+      hsl(203deg 52% 45%) 54%,
+      hsl(200deg 57% 48%) 61%,
+      hsl(197deg 62% 50%) 69%,
+      hsl(194deg 72% 52%) 79%,
+      hsl(192deg 83% 55%) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   em {
-    font-weight: 600;
-    font-size: 66%;
-    font-style: normal;
-    display: block;
+    font-weight: 400;
+    font-family: "Permanent Marker";
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    transform: rotate(-2.5deg);
   }
 `;
 const ContentWrapper = styled.section`
@@ -179,7 +184,8 @@ const IndexPage = (props) => {
           <StripeRed></StripeRed>
         </FlagWrapper>
         <PageHeadline>
-          <em>(Totally Unofficial)</em> 2023 Paris–Brest–Paris Ride Calculator
+          <em>(Totally Unofficial)</em>
+          <h1>2023 Paris–Brest–Paris Ride Calculator</h1>
         </PageHeadline>
         <ContentWrapper>
           <Chart
@@ -230,7 +236,7 @@ export default IndexPage;
 export const Head = () => (
   <>
     <html lang="en" />
-    <title>(Totally Unofficial) 2023 Paris–Brest–Paris Ride Calculator</title>
+    <title>2023 Paris–Brest–Paris Ride Calculator</title>
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇫🇷</text></svg>"

@@ -46,6 +46,10 @@ module.exports = {
             name: "Work Sans",
             file: "https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;900&display=swap",
           },
+          {
+            name: "Permanent Marker",
+            file: "https://fonts.googleapis.com/css2?family=Permanent+Marker:wght@400&display=swap",
+          },
         ],
       },
     },

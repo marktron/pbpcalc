@@ -33,7 +33,6 @@ const ChartWrapper = styled.div`
   border-radius: 30px;
   padding: 0;
   min-height: 500px;
-  /* border: solid 3px ${(props) => props.theme.colors.blue_dark}; */
 `;
 
 const Projection = styled.div`
@@ -54,10 +53,10 @@ for (let i = 0; i < controls.length; i++) {
 
 const Chart = (props) => {
   let startTime = "";
-  // General sunrise/sunset times for Tinténiac on Aug 20
+  let nightAnnotations = {}
+  // Approximate sunrise/sunset times for Tinténiac on Aug 20
   const sunriseTimeOfDay = "07:00:00.000";
   const sunsetTimeOfDay = "21:00:00.000";
-  const nightHours = [];
   if (props?.waveInfo?.startTime) {
     startTime = DateTime.fromISO(
       "2023-08-" +
@@ -103,58 +102,19 @@ const Chart = (props) => {
         "hours"
       );
 
-      nightHours[i] = {
-        sunset: sunsetHours,
-        sunrise: sunriseHours,
+      nightAnnotations[i] = {
+        type: "box",
+        backgroundColor: Theme.colors.blue_dark_translucent,
+        borderColor: Theme.colors.blue_dark_translucent,
+        borderWidth: 0,
+        drawTime: "beforeDatasetsDraw",
+        xMax: 0,
+        xMin: 1220,
+        yMax: sunriseHours,
+        yMin: sunsetHours,
       };
     }
   }
-
-  // TODO: Make this more DRY
-  const night1 = {
-    type: "box",
-    backgroundColor: Theme.colors.blue_dark_translucent,
-    borderColor: Theme.colors.blue_dark_translucent,
-    borderWidth: 0,
-    drawTime: "beforeDatasetsDraw",
-    xMax: 0,
-    xMin: 1220,
-    yMax: nightHours[0]?.sunrise,
-    yMin: nightHours[0]?.sunset,
-  };
-  const night2 = {
-    type: "box",
-    backgroundColor: Theme.colors.blue_dark_translucent,
-    borderColor: Theme.colors.blue_dark_translucent,
-    borderWidth: 0,
-    drawTime: "beforeDatasetsDraw",
-    xMax: 0,
-    xMin: 1220,
-    yMax: nightHours[1]?.sunrise,
-    yMin: nightHours[1]?.sunset,
-  };
-  const night3 = {
-    type: "box",
-    backgroundColor: Theme.colors.blue_dark_translucent,
-    borderColor: Theme.colors.blue_dark_translucent,
-    borderWidth: 0,
-    drawTime: "beforeDatasetsDraw",
-    xMax: 0,
-    xMin: 1220,
-    yMax: nightHours[2]?.sunrise,
-    yMin: nightHours[2]?.sunset,
-  };
-  const night4 = {
-    type: "box",
-    backgroundColor: Theme.colors.blue_dark_translucent,
-    borderColor: Theme.colors.blue_dark_translucent,
-    borderWidth: 0,
-    drawTime: "beforeDatasetsDraw",
-    xMax: 0,
-    xMin: 1220,
-    yMax: nightHours[3]?.sunrise,
-    yMin: nightHours[3]?.sunset,
-  };
 
   const options = {
     responsive: true,
@@ -181,12 +141,7 @@ const Chart = (props) => {
         position: "bottom",
       },
       annotation: {
-        annotations: {
-          night1,
-          night2,
-          night3,
-          night4,
-        },
+        annotations: nightAnnotations,
       },
     },
   };
