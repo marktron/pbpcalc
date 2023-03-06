@@ -207,21 +207,21 @@ const Chart = (props) => {
     let nextControlName = "";
     let nextControlDistance = "";
     let elapsedDistance =
-      tooltipItems[0].dataset?.data[tooltipItems[0].dataIndex]?.distance;
+      tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex]?.distance;
 
       if (
-        tooltipItems[0].dataset?.data[tooltipItems[0].dataIndex]?.distance !==
-        tooltipItems[0].dataset?.data[tooltipItems[0].dataIndex + 1]?.distance
+        tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex]?.distance !==
+        tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.distance
       ) {
         nextControlName =
-          tooltipItems[0].dataset?.data[tooltipItems[0].dataIndex + 1]?.location;
+          tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.location;
         nextControlDistance =
-          tooltipItems[0].dataset?.data[tooltipItems[0].dataIndex + 1]?.distance;
+          tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.distance;
       } else {
          nextControlName =
-           tooltipItems[0].dataset?.data[tooltipItems[0].dataIndex + 2]?.location;
+           tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 2]?.location;
          nextControlDistance =
-           tooltipItems[0].dataset?.data[tooltipItems[0].dataIndex + 2]?.distance;
+           tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 2]?.distance;
       }
     if (nextControlName !== undefined) {
       return `Distance to ${nextControlName}: ${Math.round(
