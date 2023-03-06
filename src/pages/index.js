@@ -85,9 +85,9 @@ const Footer = styled.footer`
     text-decoration: none;
     &:hover {
       color: ${(props) => props.theme.colors.blue_dark};
-      background: ${(props) => props.theme.colors.blue_dark_translucent};
+      background: ${(props) => props.theme.colors.blue_light_translucent};
       border-bottom-color: ${(props) =>
-        props.theme.colors.blue_dark_translucent};
+        props.theme.colors.blue_light_translucent};
     }
   }
   svg {
@@ -222,10 +222,14 @@ const IndexPage = (props) => {
       <Footer>
         <FontAwesomeIcon icon={faCanadianMapleLeaf} />
         Made in Canada by{" "}
-        <a href="https://markallen.io" target="_blank" rel="noreferrer">
+        <a
+          href="https://www.strava.com/athletes/marktron3k"
+          target="_blank"
+          rel="noreferrer"
+        >
           Mark Allen
         </a>{" "}
-        (Starting wave K, say hi when you pass me!)
+        (Starting in wave K, say hi when you pass me!)
       </Footer>
     </>
   );

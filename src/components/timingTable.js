@@ -84,7 +84,7 @@ const TimeTable = styled.table`
     &:hover {
       td {
         color: ${(props) => props.theme.colors.blue_dark};
-        background: ${(props) => props.theme.colors.blue_dark_translucent};
+        background: ${(props) => props.theme.colors.blue_light_translucent};
         input {
           transition: background 0.2s ease, border-color 0.2s ease;
           background-color: ${(props) => props.theme.colors.white};
@@ -136,7 +136,9 @@ const TimingTable = (props) => {
   const renderRow = (row) => {
     // Really should have made a less dumb data structure here :/
     const controlTiming = timing.filter((r) => r.distance === row.distance);
-    const customControls = timingData.filter((r) => r.distance === row.distance);
+    const customControls = timingData.filter(
+      (r) => r.distance === row.distance
+    );
     const arrivalDuration = Duration.fromObject({
       hours: controlTiming[0]?.elapsedTime,
     });
@@ -173,7 +175,9 @@ const TimingTable = (props) => {
     rowCounter++;
     return (
       <tr key={rowCounter}>
+        {/* Distance */}
         <CellRightAlign>{controlTiming[0]?.distance} km</CellRightAlign>
+        {/* Speed */}
         <CellCenterAlign>
           {controlTiming[0]?.distance !== timing[0].distance && (
             <input
@@ -197,6 +201,7 @@ const TimingTable = (props) => {
             />
           )}
         </CellCenterAlign>
+        {/* Elapsed Time */}
         <CellLeftAlign>
           {rowCounter > 1
             ? Duration.fromDurationLike({
@@ -204,41 +209,48 @@ const TimingTable = (props) => {
               }).toFormat("hh:mm")
             : "00:00"}
         </CellLeftAlign>
+        {/* Control name */}
         <CellLeftAlign>
           <FontAwesomeIcon
             icon={controlIcon(controlTiming[0]?.type)}
             fixedWidth
             swapOpacity={controlTiming[0]?.type === "FOOD" ? false : true}
+            title={
+              controlTiming[0]?.type === "FOOD" ? "Food only" : "Control point"
+            }
           />
           <strong>{controlTiming[0]?.location}</strong>
         </CellLeftAlign>
+        {/* Arrival time */}
         <CellRightAlign>{arrivalTimeFormatted}</CellRightAlign>
+        {/* Time at control */}
         <CellCenterAlign>
           {controlTiming[0]?.distance !== timing[0].distance &&
             controlTiming[0]?.distance !==
-              timing[timing.length -1].distance &&(
-                <input
-                  type="number"
-                  id={"ctrlTimePicker_" + rowCounter}
-                  name={"ctrlTimePicker_" + rowCounter}
-                  min="0"
-                  max="10"
-                  step="0.25"
-                  value={
-                    customControls[0]?.timeAtControl
-                      ? customControls[0]?.timeAtControl
-                      : props.avgCtrlTime
-                  }
-                  onChange={(e) =>
-                    updateControlInfo(
-                      customControls[0]?.distance,
-                      e.target.value,
-                      "TIME"
-                    )
-                  }
-                />
-              )}
+              timing[timing.length - 1].distance && (
+              <input
+                type="number"
+                id={"ctrlTimePicker_" + rowCounter}
+                name={"ctrlTimePicker_" + rowCounter}
+                min="0"
+                max="10"
+                step="0.25"
+                value={
+                  customControls[0]?.timeAtControl
+                    ? customControls[0]?.timeAtControl
+                    : props.avgCtrlTime
+                }
+                onChange={(e) =>
+                  updateControlInfo(
+                    customControls[0]?.distance,
+                    e.target.value,
+                    "TIME"
+                  )
+                }
+              />
+            )}
         </CellCenterAlign>
+        {/* Departure time */}
         <CellRightAlign>{departureTimeFormatted}</CellRightAlign>
       </tr>
     );
