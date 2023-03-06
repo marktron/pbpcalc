@@ -4,11 +4,18 @@
 module.exports = {
   siteMetadata: {
     title: `pbpcalc`,
-    siteUrl: `https://www.yourdomain.tld`,
+    siteUrl: `https://pbpcalc.com`,
   },
   plugins: [
     "gatsby-plugin-styled-components",
-    // "gatsby-plugin-google-gtag",
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: [
+          "G-K76F0TEC2F", // Google Analytics / GA
+        ],
+      },
+    },
     "gatsby-plugin-image",
     "gatsby-plugin-sitemap",
     {
