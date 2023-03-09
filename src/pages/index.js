@@ -9,11 +9,13 @@ import GeneralControls from "../components/generalControls";
 import startWaves from "../data/startWaves";
 import controls from "../data/controls";
 import TimingTable from "../components/timingTable";
+import About from "../components/about";
+
 // The following import prevents a Font Awesome icon server-side rendering bug,
 // where the icons flash from a very large icon down to a properly sized one:
-import '@fortawesome/fontawesome-svg-core/styles.css';
+import "@fortawesome/fontawesome-svg-core/styles.css";
 // Prevent fontawesome from adding its CSS since we did it manually above:
-import { config } from '@fortawesome/fontawesome-svg-core';
+import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false; /* eslint-disable import/first */
 
 const Page = styled.main``;
@@ -81,7 +83,6 @@ const StripeRed = styled.div`
   background-color: ${(props) => props.theme.colors.red};
   width: 33.333%;
 `;
-
 const Footer = styled.footer`
   font-size: 80%;
   text-align: center;
@@ -190,6 +191,7 @@ const IndexPage = (props) => {
           <StripeWhite></StripeWhite>
           <StripeRed></StripeRed>
         </FlagWrapper>
+
         <PageHeadline>
           <em>(Totally Unofficial)</em>
           <h1>2023 Paris–Brest–Paris Ride Calculator</h1>
@@ -238,6 +240,7 @@ const IndexPage = (props) => {
         </a>{" "}
         (Starting in wave K, say hi when you pass me!)
       </Footer>
+      <About/>
     </>
   );
 };
@@ -248,11 +251,5 @@ export const Head = () => (
   <>
     <html lang="en" />
     <title>2023 Paris–Brest–Paris Ride Calculator</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="theme-color" content="#ffffff"></meta>
   </>
 );

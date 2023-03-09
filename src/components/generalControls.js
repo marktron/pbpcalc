@@ -91,7 +91,7 @@ export default function GeneralControls(props) {
         </select>
       </label>
       <label>
-        Speed (km/h)
+        Average Speed (km/h)
         <input
           type="number"
           id="avgSpeedPicker"
@@ -103,7 +103,7 @@ export default function GeneralControls(props) {
         />
       </label>
       <label>
-        Time at Controls (hours)
+        Average Time at Controls (hours)
         <input
           type="number"
           id="avgCtrlTimePicker"
