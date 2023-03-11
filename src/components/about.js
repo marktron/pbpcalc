@@ -161,10 +161,16 @@ export default function About(props) {
               <p>
                 This calculator is designed to help plan your 2023
                 Paris-Brest-Paris timing strategy. How fast should you go? Where
-                should you stop to sleep? How much time can you afford to
-                spend eating pastries at control points? Play around with the
-                options to test various scenarios.</p>
-                <p>In addition to setting general averages for speed and time at controls, you can also customize those for each segment. At some point in the near future, you will be able to download or print your plan.</p>
+                should you stop to sleep? How much time can you afford to spend
+                eating pastries at control points? Play around with the options
+                to test various scenarios.
+              </p>
+              <p>
+                In addition to setting general averages for speed and time at
+                controls, you can also customize those for each segment. At some
+                point in the near future, you will be able to download or print
+                your plan.
+              </p>
               <h3>Important factors to consider</h3>
               <ul>
                 <li>You will probably start faster than you intend.</li>
@@ -174,8 +180,8 @@ export default function About(props) {
                   controls.
                 </li>
                 <li>
-                  A lot will happen during 1200km. While this calculator can help
-                  plan your ride, be prepared to adapt in the moment as
+                  A lot will happen during 1200km. While this calculator can
+                  help plan your ride, be prepared to adapt in the moment as
                   circumstances change.
                 </li>
               </ul>
@@ -184,7 +190,8 @@ export default function About(props) {
                 This is the part where I reveal haven’t ridden PBP yet, so there
                 might be assumptions made here that are completely wrong! Please
                 report any bugs on{" "}
-                <a href="https://github.com/marktron/pbpcalc/issues">Github</a>. Feel free to send any other feedback on the platforms below.{" "}
+                <a href="https://github.com/marktron/pbpcalc/issues">Github</a>.
+                Feel free to send any other feedback on the platforms below.{" "}
               </p>
               <p>
                 See you on the road!
@@ -192,10 +199,33 @@ export default function About(props) {
                 Mark Allen (90 Hours / Wave K)
               </p>
               <p>
-                <a href="https://markallen.io" target="_blank" noref>markallen.io</a> •{" "}
-                <a href="https://www.strava.com/athletes/marktron3k" target="_blank" rel="noreferrer">Strava</a>{" "}
-                • <a href="https://www.instagram.com/moustache/" target="_blank" rel="noreferrer">Instagram</a> •{" "}
-                <a href="https://www.twitter.com/moustache/" target="_blank" rel="noreferrer">Twitter</a>
+                <a href="https://markallen.io" target="_blank" rel="noreferrer">
+                  markallen.io
+                </a>{" "}
+                •{" "}
+                <a
+                  href="https://www.strava.com/athletes/marktron3k"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Strava
+                </a>{" "}
+                •{" "}
+                <a
+                  href="https://www.instagram.com/moustache/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Instagram
+                </a>{" "}
+                •{" "}
+                <a
+                  href="https://www.twitter.com/moustache/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Twitter
+                </a>
               </p>
             </ModalBody>
           </ModalContent>
