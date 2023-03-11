@@ -7,6 +7,7 @@ import {
   faBaguette,
   faFlagSwallowtail,
 } from "@fortawesome/pro-duotone-svg-icons";
+
 const CellRightAlign = styled.td`
   text-align: right;
 `;
