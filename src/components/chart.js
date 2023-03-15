@@ -33,7 +33,12 @@ const ChartWrapper = styled.div`
   background-color: ${(props) => props.theme.colors.white};
   border-radius: 30px;
   padding: 0;
-  min-height: 500px;
+  min-height: 200px;
+  max-height: 350px;
+  @media ${(props) => props.theme.devices.tablet} {
+    min-height: 500px;
+    max-height: 700px;
+  }
 `;
 
 const Projection = styled.div`
@@ -183,9 +188,7 @@ const Chart = (props) => {
       const elapsedTime = Duration.fromDurationLike({
         hours: controlInfo.elapsedTime,
       });
-      const labelTime = startTime
-        .plus(elapsedTime)
-        .toFormat("ccc T");
+      const labelTime = startTime.plus(elapsedTime).toFormat("ccc T");
 
       return `${
         controlInfo.elapsedTime === controlItems[0].elapsedTime
@@ -209,20 +212,20 @@ const Chart = (props) => {
     let elapsedDistance =
       tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex]?.distance;
 
-      if (
-        tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex]?.distance !==
-        tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.distance
-      ) {
-        nextControlName =
-          tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.location;
-        nextControlDistance =
-          tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.distance;
-      } else {
-         nextControlName =
-           tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 2]?.location;
-         nextControlDistance =
-           tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 2]?.distance;
-      }
+    if (
+      tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex]?.distance !==
+      tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.distance
+    ) {
+      nextControlName =
+        tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.location;
+      nextControlDistance =
+        tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 1]?.distance;
+    } else {
+      nextControlName =
+        tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 2]?.location;
+      nextControlDistance =
+        tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 2]?.distance;
+    }
     if (nextControlName !== undefined) {
       return `Distance to ${nextControlName}: ${Math.round(
         nextControlDistance - elapsedDistance
@@ -307,7 +310,7 @@ const Chart = (props) => {
         borderColor: Theme.colors.blue_light,
         backgroundColor: Theme.colors.blue_light,
         pointStyle: false,
-        borderWidth: 4,
+        borderWidth: 3,
       },
       {
         label:
@@ -325,7 +328,7 @@ const Chart = (props) => {
           },
         ],
         showLine: true,
-        borderWidth: 1,
+        borderWidth: 0.75,
         borderColor: Theme.colors.gray_light,
         backgroundColor: Theme.colors.gray_light,
         pointStyle: false,

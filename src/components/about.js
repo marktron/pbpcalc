@@ -171,7 +171,11 @@ export default function About(props) {
                 point in the near future, you will be able to download or print
                 your plan.
               </p>
-              <h3>Important factors to consider</h3>
+              <p>
+                Pro tip: Mouse over the control points on the graph for a
+                breakdown of your time in hand and distance to the next control.
+              </p>
+              <h3>Some important factors to consider</h3>
               <ul>
                 <li>You will probably start faster than you intend.</li>
                 <li>You will ride slower at night.</li>

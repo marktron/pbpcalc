@@ -13,6 +13,11 @@ const Theme = {
     gray_med_translucent: "rgba(95,108,123,0.1)",
     gray_light_translucent: "rgba(175,181,188,0.1)",
   },
+  devices: {
+    phone: "(min-width: 320px)",
+    tablet: "(min-width: 768px)",
+    desktop: "(min-width: 1024px)",
+  },
   page_background: "rgb(255,255,254)",
 };
 

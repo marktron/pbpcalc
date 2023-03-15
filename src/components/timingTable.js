@@ -8,46 +8,116 @@ import {
   faFlagSwallowtail,
 } from "@fortawesome/pro-duotone-svg-icons";
 
-const CellRightAlign = styled.td`
-  text-align: right;
-`;
-const CellLeftAlign = styled.td`
-  text-align: left;
-`;
-const CellCenterAlign = styled.td`
+const CellDistance = styled.div`
+  order: 2;
   text-align: center;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+    order: 1;
+    text-align: right;
+  }
 `;
-const HeaderDistance = styled.th`
-  width: 10%;
-  text-align: right;
-`;
-const HeaderSpeed = styled.th`
-  width: 10%;
+const CellSpeed = styled.div`
+  order: 3;
   text-align: center;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+    order: 2;
+  }
 `;
-const HeaderElapsed = styled.th`
-  text-align: left;
-  width: 10%;
-`;
-const HeaderControl = styled.th`
-  text-align: left;
-`;
-const HeaderArrival = styled.th`
-  text-align: right;
-  width: 10%;
-`;
-const HeaderControlTime = styled.th`
-  width: 10%;
+const CellElapsedTime = styled.div`
+  order: 4;
   text-align: center;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+    order: 3;
+    text-align: left;
+  }
 `;
-const HeaderDeparture = styled.th`
-  text-align: right;
-  width: 10%;
+const CellControlName = styled.div`
+  order: 1;
+  flex-grow: 1;
+  text-align: center;
+  background-color: ${(props) => props.theme.colors.blue_dark};
+  color: ${(props) => props.theme.colors.white};
+  border-radius: 6px 6px 0 0;
+  @media ${(props) => props.theme.devices.tablet} {
+    order: 4;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    border-radius: 0;
+  }
+`;
+const CellArrivalTime = styled.div`
+  order: 5;
+  text-align: center;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+    text-align: right;
+  }
 `;
 
-const TimeTable = styled.table`
+const CellTimeAtControl = styled.div`
+  order: 6;
+  text-align: center;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+const CellDepartureTime = styled.div`
+  order: 7;
+  text-align: center;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+    text-align: right;
+  }
+`;
+
+const HeaderDistance = styled.div`
+  text-align: right;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+const HeaderSpeed = styled.div`
+  text-align: center;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+const HeaderElapsed = styled.div`
+  text-align: left;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+const HeaderControl = styled.div`
+  text-align: left;
+  flex-grow: 1;
+`;
+const HeaderArrival = styled.div`
+  text-align: right;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+const HeaderControlTime = styled.div`
+  text-align: center;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+const HeaderDeparture = styled.div`
+  text-align: right;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+
+const TimeTable = styled.div`
   width: 100%;
-  border-collapse: collapse;
   margin-bottom: 15px;
   svg {
     margin-right: 6px;
@@ -66,18 +136,13 @@ const TimeTable = styled.table`
       border-color: ${(props) => props.theme.colors.gray_light};
     }
   }
+  strong {
+    font-weight: 600;
+  }
   tr {
-    th {
-      border-bottom: solid 1px ${(props) => props.theme.colors.gray_light};
-      font-size: 90%;
-    }
     td,
     th {
-      padding: 6px 12px;
       transition: background 0.2s ease, color 0.2s ease;
-      strong {
-        font-weight: 600;
-      }
     }
     &:nth-child(even) {
       background: ${(props) => props.theme.colors.gray_light_translucent};
@@ -93,6 +158,63 @@ const TimeTable = styled.table`
         }
       }
     }
+  }
+`;
+const TimeTableHeader = styled.div`
+  display: none;
+  @media ${(props) => props.theme.devices.tablet} {
+    border-bottom: solid 1px ${(props) => props.theme.colors.gray_light};
+    font-size: 90%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    div {
+      padding: 6px 12px;
+    }
+  }
+`;
+const TimeTableRow = styled.div`
+  border: solid 1px ${(props) => props.theme.colors.gray_light};
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  div {
+    padding: 6px 12px;
+    width: 100%;
+  }
+  @media ${(props) => props.theme.devices.tablet} {
+    flex-direction: row;
+    align-items: stretch;
+    border: none;
+    border-radius: 0;
+    margin-top: 0;
+    transition: background 0.2s ease, color 0.2s ease;
+    div {
+      padding: 6px 12px;
+      width: 10%;
+    }
+    &:nth-child(even) {
+      background: ${(props) => props.theme.colors.gray_light_translucent};
+    }
+    &:hover {
+      div {
+        color: ${(props) => props.theme.colors.blue_dark};
+        background: ${(props) => props.theme.colors.blue_light_translucent};
+        input {
+          transition: background 0.2s ease, border-color 0.2s ease;
+          background-color: ${(props) => props.theme.colors.white};
+          border-color: ${(props) => props.theme.colors.gray_light};
+        }
+      }
+    }
+  }
+`;
+const MobileLabel = styled.span`
+  margin-right: 5px;
+  @media ${(props) => props.theme.devices.tablet} {
+    display: none;
   }
 `;
 
@@ -175,12 +297,16 @@ const TimingTable = (props) => {
     }
     rowCounter++;
     return (
-      <tr key={rowCounter}>
+      <TimeTableRow key={rowCounter}>
         {/* Distance */}
-        <CellRightAlign>{controlTiming[0]?.distance} km</CellRightAlign>
+        <CellDistance>
+          <MobileLabel>Distance:</MobileLabel>
+          {controlTiming[0]?.distance} km
+        </CellDistance>
         {/* Speed */}
-        <CellCenterAlign>
-          {controlTiming[0]?.distance !== timing[0].distance && (
+        {controlTiming[0]?.distance !== timing[0].distance && (
+          <CellSpeed>
+            <MobileLabel>Speed (km/h):</MobileLabel>
             <input
               type="number"
               id={"speedPicker_" + rowCounter}
@@ -200,18 +326,19 @@ const TimingTable = (props) => {
                 )
               }
             />
-          )}
-        </CellCenterAlign>
+          </CellSpeed>
+        )}
         {/* Elapsed Time */}
-        <CellLeftAlign>
+        <CellElapsedTime>
+          <MobileLabel>Elapsed Time:</MobileLabel>
           {rowCounter > 1
             ? Duration.fromDurationLike({
                 hours: controlTiming[0]?.elapsedTime,
               }).toFormat("hh:mm")
             : "00:00"}
-        </CellLeftAlign>
+        </CellElapsedTime>
         {/* Control name */}
-        <CellLeftAlign>
+        <CellControlName>
           <FontAwesomeIcon
             icon={controlIcon(controlTiming[0]?.type)}
             fixedWidth
@@ -221,14 +348,19 @@ const TimingTable = (props) => {
             }
           />
           <strong>{controlTiming[0]?.location}</strong>
-        </CellLeftAlign>
+        </CellControlName>
         {/* Arrival time */}
-        <CellRightAlign>{arrivalTimeFormatted}</CellRightAlign>
+        {controlTiming[0]?.distance !== timing[0].distance && (
+          <CellArrivalTime>
+            <MobileLabel>Arrival Time:</MobileLabel>
+            {arrivalTimeFormatted}
+          </CellArrivalTime>
+        )}
         {/* Time at control */}
-        <CellCenterAlign>
-          {controlTiming[0]?.distance !== timing[0].distance &&
-            controlTiming[0]?.distance !==
-              timing[timing.length - 1].distance && (
+        {controlTiming[0]?.distance !== timing[0].distance &&
+          controlTiming[0]?.distance !== timing[timing.length - 1].distance && (
+            <CellTimeAtControl>
+              <MobileLabel>Time at Control:</MobileLabel>
               <input
                 type="number"
                 id={"ctrlTimePicker_" + rowCounter}
@@ -249,29 +381,33 @@ const TimingTable = (props) => {
                   )
                 }
               />
-            )}
-        </CellCenterAlign>
+            </CellTimeAtControl>
+          )}
         {/* Departure time */}
-        <CellRightAlign>{departureTimeFormatted}</CellRightAlign>
-      </tr>
+        {controlTiming[0]?.distance !== timing[timing.length - 1].distance && (
+          <CellDepartureTime>
+            <MobileLabel>Departure Time:</MobileLabel>
+            {departureTimeFormatted}
+          </CellDepartureTime>
+        )}
+      </TimeTableRow>
     );
   };
 
   return (
     <>
       <TimeTable>
-        <thead>
-          <tr>
-            <HeaderDistance>Distance</HeaderDistance>
-            <HeaderSpeed>Speed</HeaderSpeed>
-            <HeaderElapsed>Elapsed Time</HeaderElapsed>
-            <HeaderControl>Control</HeaderControl>
-            <HeaderArrival>Arrival Time</HeaderArrival>
-            <HeaderControlTime>Time at Control</HeaderControlTime>
-            <HeaderDeparture>Departure Time</HeaderDeparture>
-          </tr>
-        </thead>
-        <tbody>{controls.map((row) => renderRow(row))}</tbody>
+        <TimeTableHeader>
+          <HeaderDistance>Distance</HeaderDistance>
+          <HeaderSpeed>Speed</HeaderSpeed>
+          <HeaderElapsed>Elapsed Time</HeaderElapsed>
+          <HeaderControl>Control</HeaderControl>
+          <HeaderArrival>Arrival Time</HeaderArrival>
+          <HeaderControlTime>Time at Control</HeaderControlTime>
+          <HeaderDeparture>Departure Time</HeaderDeparture>
+        </TimeTableHeader>
+
+        {controls.map((row) => renderRow(row))}
       </TimeTable>
     </>
   );

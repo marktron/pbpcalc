@@ -27,7 +27,7 @@ const PageHeadline = styled.div`
   margin: 40px;
   h1 {
     font-weight: 900;
-    font-size: 3rem;
+    font-size: 2rem;
     letter-spacing: -0.02em;
     line-height: 1;
     color: ${(props) => props.theme.colors.blue_dark};
@@ -48,6 +48,9 @@ const PageHeadline = styled.div`
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    @media ${(props) => props.theme.devices.tablet} {
+      font-size: 3rem;
+    }
   }
   em {
     font-weight: 400;
@@ -62,8 +65,8 @@ const ContentWrapper = styled.section`
   flex-direction: column;
   margin: 30px auto;
   max-width: 1400px;
+  padding: 0 20px;
 `;
-const Controls = styled.div``;
 
 const FlagWrapper = styled.div`
   display: flex;
@@ -122,6 +125,13 @@ const IndexPage = (props) => {
   const [avgSpeed, setAvgSpeed] = useState(20);
   const [avgCtrlTime, setAvgCtrlTime] = useState(1);
   const [timingData, setTimingData] = useState(timingDataInit);
+  // Handle mobile/desktop layouts (seems like CSS is handling all of this fine for now)
+  // const [screenWidth, setScreenWidth] = React.useState(window.innerWidth);
+  // // const breakpoint = 600;
+  // React.useEffect(() => {
+  //   window.addEventListener("resize", () => setScreenWidth(window.innerWidth));
+  // }, []);
+
   let waveInfo = startWaves.find(({ wave }) => wave === startWave);
 
   // Calculate all the timing stuff…
@@ -205,18 +215,16 @@ const IndexPage = (props) => {
             timing={timing}
             timingData={timingData}
           />
-          <Controls>
-            <GeneralControls
-              startWave={startWave}
-              setStartWave={setStartWave}
-              avgSpeed={avgSpeed}
-              setAvgSpeed={setAvgSpeed}
-              avgCtrlTime={avgCtrlTime}
-              setAvgCtrlTime={setAvgCtrlTime}
-              timingData={timingData}
-              setTimingData={setTimingData}
-            />
-          </Controls>
+          <GeneralControls
+            startWave={startWave}
+            setStartWave={setStartWave}
+            avgSpeed={avgSpeed}
+            setAvgSpeed={setAvgSpeed}
+            avgCtrlTime={avgCtrlTime}
+            setAvgCtrlTime={setAvgCtrlTime}
+            timingData={timingData}
+            setTimingData={setTimingData}
+          />
           <TimingTable
             timing={timing}
             avgSpeed={avgSpeed}
@@ -240,7 +248,7 @@ const IndexPage = (props) => {
         </a>{" "}
         (Starting in wave K, say hi when you pass me!)
       </Footer>
-      <About/>
+      <About />
     </>
   );
 };

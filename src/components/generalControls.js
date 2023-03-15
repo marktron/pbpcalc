@@ -3,20 +3,22 @@ import styled from "styled-components";
 
 const ControlPanel = styled.div`
   background-color: ${(props) => props.theme.colors.gray_med_translucent};
-  color: ${(props) => props.theme.colors.blue_dark};
+  color: ${(props) => props.theme.colors.black};
   padding: 15px;
   margin: 20px 0;
   border-radius: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: baseline;
   line-height: 1;
   strong {
     font-weight: 800;
+    color: ${(props) => props.theme.colors.gray_med};
   }
   label {
     font-weight: 400;
+    margin-top: 20px;
     input,
     select {
       margin-left: 10px;
@@ -32,6 +34,29 @@ const ControlPanel = styled.div`
     }
     input {
       width: 60px;
+    }
+  }
+  @media ${(props) => props.theme.devices.tablet} {
+    flex-direction: row;
+    label {
+      margin-top: 0px;
+      input,
+      select {
+        display: block;
+        margin-top: 5px;
+        margin-left: 0;
+      }
+    }
+  }
+  @media ${(props) => props.theme.devices.desktop} {
+    label {
+      margin-top: 0px;
+      input,
+      select {
+        display: inline;
+        margin-top: 0;
+        margin-left: 10px;
+      }
     }
   }
 `;
@@ -91,7 +116,7 @@ export default function GeneralControls(props) {
         </select>
       </label>
       <label>
-        Average Speed (km/h)
+        Speed (km/h)
         <input
           type="number"
           id="avgSpeedPicker"
@@ -103,7 +128,7 @@ export default function GeneralControls(props) {
         />
       </label>
       <label>
-        Average Time at Controls (hours)
+        Time at Controls (hours)
         <input
           type="number"
           id="avgCtrlTimePicker"
