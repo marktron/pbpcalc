@@ -25,6 +25,15 @@ const CellSpeed = styled.div`
     order: 2;
   }
 `;
+const CellSpeedEmpty = styled.div`
+  margin-top: -20px;
+  order: 3;
+  @media ${(props) => props.theme.devices.tablet} {
+    margin-top: 0;
+    width: 10%;
+    order: 2;
+  }
+`;
 const CellElapsedTime = styled.div`
   order: 4;
   text-align: center;
@@ -58,11 +67,26 @@ const CellArrivalTime = styled.div`
     text-align: right;
   }
 `;
-
+const CellArrivalTimeEmpty = styled.div`
+  margin-top: -20px;
+  order: 5;
+  @media ${(props) => props.theme.devices.tablet} {
+    margin-top: 0;
+    width: 10%;
+  }
+`;
 const CellTimeAtControl = styled.div`
   order: 6;
   text-align: center;
   @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+const CellTimeAtControlEmpty = styled.div`
+  margin-top: -20px;
+  order: 6;
+  @media ${(props) => props.theme.devices.tablet} {
+    margin-top: 0;
     width: 10%;
   }
 `;
@@ -74,7 +98,12 @@ const CellDepartureTime = styled.div`
     text-align: right;
   }
 `;
-
+const CellDepartureTimeEmpty = styled.div`
+  order: 7;
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
 const HeaderDistance = styled.div`
   text-align: right;
   @media ${(props) => props.theme.devices.tablet} {
@@ -138,26 +167,6 @@ const TimeTable = styled.div`
   }
   strong {
     font-weight: 600;
-  }
-  tr {
-    td,
-    th {
-      transition: background 0.2s ease, color 0.2s ease;
-    }
-    &:nth-child(even) {
-      background: ${(props) => props.theme.colors.gray_light_translucent};
-    }
-    &:hover {
-      td {
-        color: ${(props) => props.theme.colors.blue_dark};
-        background: ${(props) => props.theme.colors.blue_light_translucent};
-        input {
-          transition: background 0.2s ease, border-color 0.2s ease;
-          background-color: ${(props) => props.theme.colors.white};
-          border-color: ${(props) => props.theme.colors.gray_light};
-        }
-      }
-    }
   }
 `;
 const TimeTableHeader = styled.div`
@@ -304,7 +313,7 @@ const TimingTable = (props) => {
           {controlTiming[0]?.distance} km
         </CellDistance>
         {/* Speed */}
-        {controlTiming[0]?.distance !== timing[0].distance && (
+        {controlTiming[0]?.distance !== timing[0].distance ? (
           <CellSpeed>
             <MobileLabel>Speed (km/h):</MobileLabel>
             <input
@@ -327,6 +336,8 @@ const TimingTable = (props) => {
               }
             />
           </CellSpeed>
+        ) : (
+          <CellSpeedEmpty></CellSpeedEmpty>
         )}
         {/* Elapsed Time */}
         <CellElapsedTime>
@@ -350,15 +361,15 @@ const TimingTable = (props) => {
           <strong>{controlTiming[0]?.location}</strong>
         </CellControlName>
         {/* Arrival time */}
-        {controlTiming[0]?.distance !== timing[0].distance && (
+        {controlTiming[0]?.distance !== timing[0].distance ? (
           <CellArrivalTime>
             <MobileLabel>Arrival Time:</MobileLabel>
             {arrivalTimeFormatted}
           </CellArrivalTime>
-        )}
+        ): <CellArrivalTimeEmpty></CellArrivalTimeEmpty>}
         {/* Time at control */}
         {controlTiming[0]?.distance !== timing[0].distance &&
-          controlTiming[0]?.distance !== timing[timing.length - 1].distance && (
+          controlTiming[0]?.distance !== timing[timing.length - 1].distance ? (
             <CellTimeAtControl>
               <MobileLabel>Time at Control:</MobileLabel>
               <input
@@ -382,14 +393,14 @@ const TimingTable = (props) => {
                 }
               />
             </CellTimeAtControl>
-          )}
+          ) : <CellTimeAtControlEmpty></CellTimeAtControlEmpty>}
         {/* Departure time */}
-        {controlTiming[0]?.distance !== timing[timing.length - 1].distance && (
+        {controlTiming[0]?.distance !== timing[timing.length - 1].distance ? (
           <CellDepartureTime>
             <MobileLabel>Departure Time:</MobileLabel>
             {departureTimeFormatted}
           </CellDepartureTime>
-        )}
+        ): <CellDepartureTimeEmpty></CellDepartureTimeEmpty>}
       </TimeTableRow>
     );
   };
