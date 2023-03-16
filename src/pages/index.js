@@ -259,5 +259,34 @@ export const Head = () => (
   <>
     <html lang="en" />
     <title>2023 Paris–Brest–Paris Ride Calculator</title>
+    <meta
+      name="keywords"
+      content="Paris-Brest-Paris, PBP, PBP 2023, cycling event, ride calculator, brevet planning, progress tracking, long-distance cycling, randonneuring"
+    />
+    <meta
+      name="description"
+      content="Plan your 2023 Paris-Brest-Paris randonneuring adventure with this (totally unofficial) PBP Ride Calculator. Optimize your schedule, plan your strategy, and stay ahead of the time limits."
+    />
+    <meta
+      property="og:title"
+      content="2023 Paris–Brest–Paris Ride Calculator"
+    />
+    <meta
+      property="og:description"
+      content="Plan your 2023 Paris-Brest-Paris randonneuring adventure with this (totally unofficial) PBP Ride Calculator. Optimize your schedule, plan your strategy, and stay ahead of the time limits."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https:/pbpcalc.com" />
+    <meta property="og:image" content={"/og-image.png"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      property="twitter:title"
+      content="2023 Paris–Brest–Paris Ride Calculator"
+    />
+    <meta
+      property="twitter:description"
+      content="Plan your 2023 Paris-Brest-Paris randonneuring adventure with this (totally unofficial) PBP Ride Calculator. Optimize your schedule, plan your strategy, and stay ahead of the time limits."
+    />
+    <meta property="twitter:image" content={"/og-image.png"} />
   </>
 );
