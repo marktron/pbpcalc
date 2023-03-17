@@ -107,6 +107,10 @@ const Footer = styled.footer`
   }
 `;
 
+// Approximate sunrise/sunset times for Tinténiac on Aug 20
+const sunriseTimeOfDay = "07:00:00.000";
+const sunsetTimeOfDay = "21:00:00.000";
+
 let timingDataInit = [];
 let timing = [];
 
@@ -214,6 +218,8 @@ const IndexPage = (props) => {
             props={props}
             timing={timing}
             timingData={timingData}
+            sunriseTimeOfDay={sunriseTimeOfDay}
+            sunsetTimeOfDay={sunsetTimeOfDay}
           />
           <GeneralControls
             startWave={startWave}
@@ -233,6 +239,8 @@ const IndexPage = (props) => {
             startTime={startTime}
             timingData={timingData}
             setTimingData={setTimingData}
+            sunriseTimeOfDay={sunriseTimeOfDay}
+            sunsetTimeOfDay={sunsetTimeOfDay}
           />
         </ContentWrapper>
       </Page>

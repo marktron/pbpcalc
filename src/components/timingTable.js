@@ -6,6 +6,7 @@ import {
   faLocationDot,
   faBaguette,
   faFlagSwallowtail,
+  faMoon,
 } from "@fortawesome/pro-duotone-svg-icons";
 
 const CellDistance = styled.div`
@@ -240,9 +241,32 @@ const controlIcon = (type) => {
 };
 
 const TimingTable = (props) => {
-  const { timing, timingData, controls, startTime } = props;
+  const {
+    timing,
+    timingData,
+    controls,
+    startTime,
+    sunriseTimeOfDay,
+    sunsetTimeOfDay,
+  } = props;
   let rowCounter = 0;
   let displayDate = null;
+
+  const isNightTime = (currentTime) => {
+    // const sunriseTimeOfDay = "07:00:00.000";
+    if (currentTime) {
+      const current = currentTime.toFormat("HH':'mm':'ss");
+      console.log("🔔 current", current);
+      if (
+        current &&
+        (current >= sunsetTimeOfDay || current <= sunriseTimeOfDay)
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 
   const updateControlInfo = (distance, value, type) => {
     const i = timingData.findIndex((x) => x.distance === distance);
@@ -364,43 +388,65 @@ const TimingTable = (props) => {
         {controlTiming[0]?.distance !== timing[0].distance ? (
           <CellArrivalTime>
             <MobileLabel>Arrival Time:</MobileLabel>
+            {isNightTime(arrivalTime) && (
+              <FontAwesomeIcon
+                icon={faMoon}
+                fixedWidth
+                title={"Night"}
+                swapOpacity
+              />
+            )}
             {arrivalTimeFormatted}
           </CellArrivalTime>
-        ): <CellArrivalTimeEmpty></CellArrivalTimeEmpty>}
+        ) : (
+          <CellArrivalTimeEmpty></CellArrivalTimeEmpty>
+        )}
         {/* Time at control */}
         {controlTiming[0]?.distance !== timing[0].distance &&
-          controlTiming[0]?.distance !== timing[timing.length - 1].distance ? (
-            <CellTimeAtControl>
-              <MobileLabel>Time at Control:</MobileLabel>
-              <input
-                type="number"
-                id={"ctrlTimePicker_" + rowCounter}
-                name={"ctrlTimePicker_" + rowCounter}
-                min="0"
-                max="10"
-                step="0.25"
-                value={
-                  customControls[0]?.timeAtControl
-                    ? customControls[0]?.timeAtControl
-                    : props.avgCtrlTime
-                }
-                onChange={(e) =>
-                  updateControlInfo(
-                    customControls[0]?.distance,
-                    e.target.value,
-                    "TIME"
-                  )
-                }
-              />
-            </CellTimeAtControl>
-          ) : <CellTimeAtControlEmpty></CellTimeAtControlEmpty>}
+        controlTiming[0]?.distance !== timing[timing.length - 1].distance ? (
+          <CellTimeAtControl>
+            <MobileLabel>Time at Control:</MobileLabel>
+            <input
+              type="number"
+              id={"ctrlTimePicker_" + rowCounter}
+              name={"ctrlTimePicker_" + rowCounter}
+              min="0"
+              max="10"
+              step="0.25"
+              value={
+                customControls[0]?.timeAtControl
+                  ? customControls[0]?.timeAtControl
+                  : props.avgCtrlTime
+              }
+              onChange={(e) =>
+                updateControlInfo(
+                  customControls[0]?.distance,
+                  e.target.value,
+                  "TIME"
+                )
+              }
+            />
+          </CellTimeAtControl>
+        ) : (
+          <CellTimeAtControlEmpty></CellTimeAtControlEmpty>
+        )}
         {/* Departure time */}
         {controlTiming[0]?.distance !== timing[timing.length - 1].distance ? (
           <CellDepartureTime>
             <MobileLabel>Departure Time:</MobileLabel>
+            {isNightTime(departureTime) && (
+              <FontAwesomeIcon
+                icon={faMoon}
+                fixedWidth
+                title={"Night"}
+                swapOpacity
+              />
+            )}
             {departureTimeFormatted}
           </CellDepartureTime>
-        ): <CellDepartureTimeEmpty></CellDepartureTimeEmpty>}
+        ) : (
+          <CellDepartureTimeEmpty></CellDepartureTimeEmpty>
+        )}
       </TimeTableRow>
     );
   };

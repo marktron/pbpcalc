@@ -64,9 +64,7 @@ defaults.color = Theme.colors.gray_med;
 const Chart = (props) => {
   let startTime = "";
   let nightAnnotations = {};
-  // Approximate sunrise/sunset times for Tinténiac on Aug 20
-  const sunriseTimeOfDay = "07:00:00.000";
-  const sunsetTimeOfDay = "21:00:00.000";
+
   if (props?.waveInfo?.startTime) {
     startTime = DateTime.fromISO(
       "2023-08-" +
@@ -84,24 +82,24 @@ const Chart = (props) => {
         sunsetTime = DateTime.fromISO(
           `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
             startTime.day + i - 1
-          }T${sunsetTimeOfDay}`
+          }T${props?.sunsetTimeOfDay}`
         );
         sunriseTime = DateTime.fromISO(
           `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
             startTime.day + i
-          }T${sunriseTimeOfDay}`
+          }T${props?.sunriseTimeOfDay}`
         );
       } else {
         sunsetTime = DateTime.fromISO(
           `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
             startTime.day + i
-          }T${sunsetTimeOfDay}`
+          }T${props?.sunsetTimeOfDay}`
         );
 
         sunriseTime = DateTime.fromISO(
           `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
             startTime.day + i + 1
-          }T${sunriseTimeOfDay}`
+          }T${props?.sunriseTimeOfDay}`
         );
       }
       sunsetHours =
