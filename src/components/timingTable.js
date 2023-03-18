@@ -347,9 +347,11 @@ const TimingTable = (props) => {
             icon={controlIcon(controlTiming[0]?.type)}
             fixedWidth
             swapOpacity={controlTiming[0]?.type === "FOOD" ? false : true}
-            data-tooltip-id="my-tooltip"
+            data-tooltip-id="tooltip-hover"
             data-tooltip-content={
-              controlTiming[0]?.type === "FOOD" ? "Food only, not a control point" : "Control point"
+              controlTiming[0]?.type === "FOOD"
+                ? "Food only, not a control point"
+                : "Control point"
             }
           />
           <strong>{controlTiming[0]?.location}</strong>
@@ -361,8 +363,9 @@ const TimingTable = (props) => {
               <FontAwesomeIcon
                 icon={faMoon}
                 fixedWidth
-                title={"Night"}
                 swapOpacity
+                data-tooltip-id="tooltip-hover"
+                data-tooltip-content="Night"
               />
               {arrivalTimeFormatted}
             </>
@@ -401,8 +404,9 @@ const TimingTable = (props) => {
                 <FontAwesomeIcon
                   icon={faMoon}
                   fixedWidth
-                  title={"Night"}
                   swapOpacity
+                  data-tooltip-id="tooltip-hover"
+                  data-tooltip-content="Night"
                 />
               )}
               {departureTimeFormatted}
@@ -427,7 +431,7 @@ const TimingTable = (props) => {
         </TimeTableHeader>
         {controls.map((row, index) => renderRow(row, index))}
       </TimeTable>
-      <Tooltip id="my-tooltip" />
+      <Tooltip id="tooltip-hover" />
     </>
   );
 };
