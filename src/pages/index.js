@@ -285,7 +285,7 @@ export const Head = () => (
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https:/pbpcalc.com" />
-    <meta property="og:image" content={"/og-image.png"} />
+    <meta property="og:image" content="https:/pbpcalc.com/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       property="twitter:title"
@@ -295,6 +295,9 @@ export const Head = () => (
       property="twitter:description"
       content="Plan your 2023 Paris-Brest-Paris randonneuring adventure with this (totally unofficial) PBP Ride Calculator. Optimize your schedule, plan your strategy, and stay ahead of the time limits."
     />
-    <meta property="twitter:image" content={"/og-image.png"} />
+    <meta
+      property="twitter:image"
+      content="https:/pbpcalc.com/og-image.png"
+    />
   </>
 );
