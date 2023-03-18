@@ -8,147 +8,131 @@ import {
   faFlagSwallowtail,
   faMoon,
 } from "@fortawesome/pro-duotone-svg-icons";
+import { Tooltip } from "react-tooltip";
 
-const CellDistance = styled.div`
-  order: 2;
+const TimingCell = styled.div`
   text-align: center;
+  &:empty {
+    display: none;
+  }
   @media ${(props) => props.theme.devices.tablet} {
     width: 10%;
-    order: 1;
-    text-align: right;
+    &:before {
+      content: none !important;
+    }
+    &:empty {
+      display: block !important;
+    }
   }
 `;
-const CellSpeed = styled.div`
-  order: 3;
-  text-align: center;
+const TimingCellLeft = styled(TimingCell)`
   @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-    order: 2;
-  }
-`;
-const CellSpeedEmpty = styled.div`
-  margin-top: -20px;
-  order: 3;
-  @media ${(props) => props.theme.devices.tablet} {
-    margin-top: 0;
-    width: 10%;
-    order: 2;
-  }
-`;
-const CellElapsedTime = styled.div`
-  order: 4;
-  text-align: center;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-    order: 3;
     text-align: left;
   }
 `;
-const CellControlName = styled.div`
+const TimingCellCenter = styled(TimingCell)`
+  @media ${(props) => props.theme.devices.tablet} {
+    text-align: center;
+  }
+`;
+const TimingCellRight = styled(TimingCell)`
+  @media ${(props) => props.theme.devices.tablet} {
+    text-align: right;
+  }
+`;
+const CellDistance = styled(TimingCellRight)`
+  order: 2;
+  &:before {
+    content: "Distance: ";
+  }
+  @media ${(props) => props.theme.devices.tablet} {
+    order: 1;
+  }
+`;
+const CellSpeed = styled(TimingCellCenter)`
+  order: 3;
+  &:before {
+    content: "Speed (km/h): ";
+  }
+  @media ${(props) => props.theme.devices.tablet} {
+    order: 2;
+  }
+`;
+const CellElapsedTime = styled(TimingCellLeft)`
+  order: 4;
+  &:before {
+    content: "Elapsed Time: ";
+  }
+  @media ${(props) => props.theme.devices.tablet} {
+    order: 3;
+  }
+`;
+const CellControlName = styled(TimingCellLeft)`
   order: 1;
   flex-grow: 1;
-  text-align: center;
   background-color: ${(props) => props.theme.colors.blue_dark};
   color: ${(props) => props.theme.colors.white};
   border-radius: 6px 6px 0 0;
   @media ${(props) => props.theme.devices.tablet} {
     order: 4;
-    text-align: left;
     background-color: transparent;
     border: none;
     color: inherit;
     border-radius: 0;
   }
 `;
-const CellArrivalTime = styled.div`
+const CellArrivalTime = styled(TimingCellRight)`
   order: 5;
-  text-align: center;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-    text-align: right;
+  &:before {
+    content: "Arrival Time: ";
   }
 `;
-const CellArrivalTimeEmpty = styled.div`
-  margin-top: -20px;
-  order: 5;
-  @media ${(props) => props.theme.devices.tablet} {
-    margin-top: 0;
-    width: 10%;
-  }
-`;
-const CellTimeAtControl = styled.div`
+const CellTimeAtControl = styled(TimingCellCenter)`
   order: 6;
-  text-align: center;
+  &:before {
+    content: "Hours at Control: ";
+  }
   @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
+    width: 12% !important;
   }
 `;
-const CellTimeAtControlEmpty = styled.div`
-  margin-top: -20px;
-  order: 6;
-  @media ${(props) => props.theme.devices.tablet} {
-    margin-top: 0;
-    width: 10%;
-  }
-`;
-const CellDepartureTime = styled.div`
+const CellDepartureTime = styled(TimingCellRight)`
   order: 7;
+  &:before {
+    content: "Departure Time: ";
+  }
+`;
+const HeaderCell = styled.div`
+  @media ${(props) => props.theme.devices.tablet} {
+    width: 10%;
+  }
+`;
+const HeaderCellLeft = styled(HeaderCell)`
+  text-align: left;
+`;
+const HeaderCellCenter = styled(HeaderCell)`
   text-align: center;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-    text-align: right;
-  }
 `;
-const CellDepartureTimeEmpty = styled.div`
-  order: 7;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-  }
-`;
-const HeaderDistance = styled.div`
+const HeaderCellRight = styled(HeaderCell)`
   text-align: right;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-  }
 `;
-const HeaderSpeed = styled.div`
-  text-align: center;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-  }
-`;
-const HeaderElapsed = styled.div`
-  text-align: left;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-  }
-`;
-const HeaderControl = styled.div`
-  text-align: left;
+const HeaderDistance = styled(HeaderCellRight)``;
+const HeaderSpeed = styled(HeaderCellCenter)``;
+const HeaderElapsed = styled(HeaderCellLeft)``;
+const HeaderControl = styled(HeaderCellLeft)`
   flex-grow: 1;
 `;
-const HeaderArrival = styled.div`
-  text-align: right;
+const HeaderArrival = styled(HeaderCellRight)``;
+const HeaderControlTime = styled(HeaderCellCenter)`
   @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
+    width: 12%;
   }
 `;
-const HeaderControlTime = styled.div`
-  text-align: center;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-  }
-`;
-const HeaderDeparture = styled.div`
-  text-align: right;
-  @media ${(props) => props.theme.devices.tablet} {
-    width: 10%;
-  }
-`;
+const HeaderDeparture = styled(HeaderCellRight)``;
 
 const TimeTable = styled.div`
   width: 100%;
-  margin-bottom: 15px;
+  font-variant-numeric: tabular-nums;
   svg {
     margin-right: 6px;
   }
@@ -157,7 +141,8 @@ const TimeTable = styled.div`
     border-radius: 5px;
     padding: 2px;
     background-color: ${(props) => props.theme.colors.gray_light_translucent};
-    width: 50%;
+    width: 100%;
+    max-width: 60px;
     color: ${(props) => props.theme.colors.gray_med};
     outline: none;
     appearance: none;
@@ -202,7 +187,6 @@ const TimeTableRow = styled.div`
     margin-top: 0;
     transition: background 0.2s ease, color 0.2s ease;
     div {
-      padding: 6px 12px;
       width: 10%;
     }
     &:nth-child(even) {
@@ -219,12 +203,6 @@ const TimeTableRow = styled.div`
         }
       }
     }
-  }
-`;
-const MobileLabel = styled.span`
-  margin-right: 5px;
-  @media ${(props) => props.theme.devices.tablet} {
-    display: none;
   }
 `;
 
@@ -249,14 +227,11 @@ const TimingTable = (props) => {
     sunriseTimeOfDay,
     sunsetTimeOfDay,
   } = props;
-  let rowCounter = 0;
   let displayDate = null;
 
   const isNightTime = (currentTime) => {
-    // const sunriseTimeOfDay = "07:00:00.000";
     if (currentTime) {
       const current = currentTime.toFormat("HH':'mm':'ss");
-      console.log("🔔 current", current);
       if (
         current &&
         (current >= sunsetTimeOfDay || current <= sunriseTimeOfDay)
@@ -264,7 +239,6 @@ const TimingTable = (props) => {
         return true;
       }
     }
-
     return false;
   };
 
@@ -289,7 +263,7 @@ const TimingTable = (props) => {
     }
   };
 
-  const renderRow = (row) => {
+  const renderRow = (row, controlIndex) => {
     // Really should have made a less dumb data structure here :/
     const controlTiming = timing.filter((r) => r.distance === row.distance);
     const customControls = timingData.filter(
@@ -298,12 +272,15 @@ const TimingTable = (props) => {
     const arrivalDuration = Duration.fromObject({
       hours: controlTiming[0]?.elapsedTime,
     });
+    const isFirstControl = controlTiming[0]?.distance === timing[0].distance;
+    const isLastControl =
+      controlTiming[0]?.distance === timing[timing.length - 1].distance;
     let arrivalTime = null;
     let arrivalTimeFormatted = null;
     let departureTime = null;
     let departureTimeFormatted = null;
-    if (rowCounter > 0) {
-      arrivalTime = rowCounter > 0 ? startTime.plus(arrivalDuration) : null;
+    if (controlIndex > 0) {
+      arrivalTime = controlIndex > 0 ? startTime.plus(arrivalDuration) : null;
       if (arrivalTime.toLocaleString(DateTime.DATE_MED) !== displayDate) {
         arrivalTimeFormatted = arrivalTime.toFormat("ccc T");
       } else if (
@@ -317,7 +294,7 @@ const TimingTable = (props) => {
       hours: controlTiming[1]?.elapsedTime,
     });
 
-    if (rowCounter < controls.length - 1) {
+    if (controlIndex < controls.length - 1) {
       departureTime = startTime.plus(departureDuration);
       if (departureTime.toLocaleString(DateTime.DATE_MED) !== displayDate) {
         departureTimeFormatted = departureTime.toFormat("ccc T");
@@ -328,22 +305,17 @@ const TimingTable = (props) => {
       }
       displayDate = departureTime.toLocaleString(DateTime.DATE_MED);
     }
-    rowCounter++;
     return (
-      <TimeTableRow key={rowCounter}>
+      <TimeTableRow key={row.distance}>
         {/* Distance */}
-        <CellDistance>
-          <MobileLabel>Distance:</MobileLabel>
-          {controlTiming[0]?.distance} km
-        </CellDistance>
+        <CellDistance>{controlTiming[0]?.distance} km</CellDistance>
         {/* Speed */}
-        {controlTiming[0]?.distance !== timing[0].distance ? (
-          <CellSpeed>
-            <MobileLabel>Speed (km/h):</MobileLabel>
+        <CellSpeed>
+          {!isFirstControl && (
             <input
               type="number"
-              id={"speedPicker_" + rowCounter}
-              name={"speedPicker_" + rowCounter}
+              id={`speedPicker_${row.distance}`}
+              name={`speedPicker_${row.distance}`}
               min="10"
               max="40"
               value={
@@ -359,14 +331,11 @@ const TimingTable = (props) => {
                 )
               }
             />
-          </CellSpeed>
-        ) : (
-          <CellSpeedEmpty></CellSpeedEmpty>
-        )}
+          )}
+        </CellSpeed>
         {/* Elapsed Time */}
         <CellElapsedTime>
-          <MobileLabel>Elapsed Time:</MobileLabel>
-          {rowCounter > 1
+          {!isFirstControl
             ? Duration.fromDurationLike({
                 hours: controlTiming[0]?.elapsedTime,
               }).toFormat("hh:mm")
@@ -378,38 +347,34 @@ const TimingTable = (props) => {
             icon={controlIcon(controlTiming[0]?.type)}
             fixedWidth
             swapOpacity={controlTiming[0]?.type === "FOOD" ? false : true}
-            title={
-              controlTiming[0]?.type === "FOOD" ? "Food only" : "Control point"
+            data-tooltip-id="my-tooltip"
+            data-tooltip-content={
+              controlTiming[0]?.type === "FOOD" ? "Food only, not a control point" : "Control point"
             }
           />
           <strong>{controlTiming[0]?.location}</strong>
         </CellControlName>
         {/* Arrival time */}
-        {controlTiming[0]?.distance !== timing[0].distance ? (
-          <CellArrivalTime>
-            <MobileLabel>Arrival Time:</MobileLabel>
-            {isNightTime(arrivalTime) && (
+        <CellArrivalTime>
+          {!isFirstControl && isNightTime(arrivalTime) && (
+            <>
               <FontAwesomeIcon
                 icon={faMoon}
                 fixedWidth
                 title={"Night"}
                 swapOpacity
               />
-            )}
-            {arrivalTimeFormatted}
-          </CellArrivalTime>
-        ) : (
-          <CellArrivalTimeEmpty></CellArrivalTimeEmpty>
-        )}
+              {arrivalTimeFormatted}
+            </>
+          )}
+        </CellArrivalTime>
         {/* Time at control */}
-        {controlTiming[0]?.distance !== timing[0].distance &&
-        controlTiming[0]?.distance !== timing[timing.length - 1].distance ? (
-          <CellTimeAtControl>
-            <MobileLabel>Time at Control:</MobileLabel>
+        <CellTimeAtControl>
+          {!isFirstControl && !isLastControl && (
             <input
               type="number"
-              id={"ctrlTimePicker_" + rowCounter}
-              name={"ctrlTimePicker_" + rowCounter}
+              id={`ctrlTimePicker_${row.distance}`}
+              name={`ctrlTimePicker_${row.distance}`}
               min="0"
               max="10"
               step="0.25"
@@ -426,27 +391,24 @@ const TimingTable = (props) => {
                 )
               }
             />
-          </CellTimeAtControl>
-        ) : (
-          <CellTimeAtControlEmpty></CellTimeAtControlEmpty>
-        )}
+          )}
+        </CellTimeAtControl>
         {/* Departure time */}
-        {controlTiming[0]?.distance !== timing[timing.length - 1].distance ? (
-          <CellDepartureTime>
-            <MobileLabel>Departure Time:</MobileLabel>
-            {isNightTime(departureTime) && (
-              <FontAwesomeIcon
-                icon={faMoon}
-                fixedWidth
-                title={"Night"}
-                swapOpacity
-              />
-            )}
-            {departureTimeFormatted}
-          </CellDepartureTime>
-        ) : (
-          <CellDepartureTimeEmpty></CellDepartureTimeEmpty>
-        )}
+        <CellDepartureTime>
+          {!isLastControl && (
+            <>
+              {isNightTime(departureTime) && (
+                <FontAwesomeIcon
+                  icon={faMoon}
+                  fixedWidth
+                  title={"Night"}
+                  swapOpacity
+                />
+              )}
+              {departureTimeFormatted}
+            </>
+          )}
+        </CellDepartureTime>
       </TimeTableRow>
     );
   };
@@ -459,13 +421,13 @@ const TimingTable = (props) => {
           <HeaderSpeed>Speed</HeaderSpeed>
           <HeaderElapsed>Elapsed Time</HeaderElapsed>
           <HeaderControl>Control</HeaderControl>
-          <HeaderArrival>Arrival Time</HeaderArrival>
-          <HeaderControlTime>Time at Control</HeaderControlTime>
-          <HeaderDeparture>Departure Time</HeaderDeparture>
+          <HeaderArrival>Arrival</HeaderArrival>
+          <HeaderControlTime>Hours at Control</HeaderControlTime>
+          <HeaderDeparture>Departure</HeaderDeparture>
         </TimeTableHeader>
-
-        {controls.map((row) => renderRow(row))}
+        {controls.map((row, index) => renderRow(row, index))}
       </TimeTable>
+      <Tooltip id="my-tooltip" />
     </>
   );
 };

@@ -89,7 +89,7 @@ const StripeRed = styled.div`
 const Footer = styled.footer`
   font-size: 80%;
   text-align: center;
-  padding-bottom: 20px;
+  padding: 0 20px 20px 20px;
   a {
     color: ${(props) => props.theme.colors.gray_med};
     border-bottom: solid 1px ${(props) => props.theme.colors.gray_light};

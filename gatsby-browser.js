@@ -1,6 +1,7 @@
 import React from "react";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import Theme from "./src/components/theme";
+import "react-tooltip/dist/react-tooltip.css";
 
 const GlobalStyle = createGlobalStyle`
 /*

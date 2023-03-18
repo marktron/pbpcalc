@@ -191,7 +191,7 @@ export default function About(props) {
               </ul>
               <h3>Questions & feedback</h3>
               <p>
-                This is the part where I reveal haven’t ridden PBP yet, so there
+                This is the part where I should reveal that I haven’t ridden PBP yet, so there
                 might be assumptions made here that are completely wrong! Please
                 report any bugs on{" "}
                 <a href="https://github.com/marktron/pbpcalc/issues">Github</a>.
