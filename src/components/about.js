@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
+import { OutboundLink } from "gatsby-plugin-google-gtag";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -159,11 +160,18 @@ export default function About(props) {
             </ModalHeader>
             <ModalBody>
               <p>
-                This calculator is designed to help plan your 2023
-                Paris-Brest-Paris timing strategy. How fast should you go? Where
-                should you stop to sleep? How much time can you afford to spend
-                eating pastries at control points? Play around with the options
-                to test various scenarios.
+                This calculator is designed to help plan your 2023{" "}
+                <OutboundLink
+                  href="https://www.paris-brest-paris.org/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Paris-Brest-Paris
+                </OutboundLink>{" "}
+                timing strategy. How fast should you go? Where should you stop
+                to sleep? How much time can you afford to spend eating pastries
+                at control points? Play around with the options to test various
+                scenarios.
               </p>
               <p>
                 In addition to setting general averages for speed and time at
@@ -191,11 +199,13 @@ export default function About(props) {
               </ul>
               <h3>Questions & feedback</h3>
               <p>
-                This is the part where I should reveal that I haven’t ridden PBP yet, so there
-                might be assumptions made here that are completely wrong! Please
-                report any bugs on{" "}
-                <a href="https://github.com/marktron/pbpcalc/issues">Github</a>.
-                Feel free to send any other feedback on the platforms below.{" "}
+                This is the part where I should reveal that I haven’t ridden PBP
+                yet, so there might be assumptions made here that are completely
+                wrong! Please report any bugs on{" "}
+                <OutboundLink href="https://github.com/marktron/pbpcalc/issues">
+                  Github
+                </OutboundLink>
+                . Feel free to send any other feedback on the platforms below.{" "}
               </p>
               <p>
                 See you on the road!
@@ -203,33 +213,37 @@ export default function About(props) {
                 Mark Allen (90 Hours / Wave K)
               </p>
               <p>
-                <a href="https://markallen.io" target="_blank" rel="noreferrer">
+                <OutboundLink
+                  href="https://markallen.io"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   markallen.io
-                </a>{" "}
+                </OutboundLink>{" "}
                 •{" "}
-                <a
+                <OutboundLink
                   href="https://www.strava.com/athletes/marktron3k"
                   target="_blank"
                   rel="noreferrer"
                 >
                   Strava
-                </a>{" "}
+                </OutboundLink>{" "}
                 •{" "}
-                <a
+                <OutboundLink
                   href="https://www.instagram.com/moustache/"
                   target="_blank"
                   rel="noreferrer"
                 >
                   Instagram
-                </a>{" "}
+                </OutboundLink>{" "}
                 •{" "}
-                <a
+                <OutboundLink
                   href="https://www.twitter.com/moustache/"
                   target="_blank"
                   rel="noreferrer"
                 >
                   Twitter
-                </a>
+                </OutboundLink>
               </p>
             </ModalBody>
           </ModalContent>

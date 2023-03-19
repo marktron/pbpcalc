@@ -70,6 +70,13 @@ export default function GeneralControls(props) {
     startWave,
     setStartWave,
   } = props;
+
+  const updateStartWave = (wave) => {
+    setStartWave(wave);
+    process.env.NODE_ENV === "production" &&
+      typeof window !== "undefined" &&
+      window.gtag("event", "setStartingWave", { wave: wave });
+  };
   return (
     <ControlPanel>
       <strong>General settings</strong>
@@ -78,7 +85,7 @@ export default function GeneralControls(props) {
         <select
           id="wavePicker"
           value={startWave}
-          onChange={(e) => setStartWave(e.target.value)}
+          onChange={(e) => updateStartWave(e.target.value)}
         >
           <optgroup label="80 hours">
             <option value="A">A – 16:00</option>
