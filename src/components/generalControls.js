@@ -77,6 +77,18 @@ export default function GeneralControls(props) {
       typeof window !== "undefined" &&
       window.gtag("event", "setStartingWave", { wave: wave });
   };
+  const updateAvgSpeed = (speed) => {
+    setAvgSpeed(speed);
+    process.env.NODE_ENV === "production" &&
+      typeof window !== "undefined" &&
+      window.gtag("event", "setAvgSpeed", { speed: speed });
+  };
+  const updateAvgCtrlTime = (time) => {
+    setAvgCtrlTime(time);
+    process.env.NODE_ENV === "production" &&
+      typeof window !== "undefined" &&
+      window.gtag("event", "setAvgCtrlTime", { time: time });
+  };
   return (
     <ControlPanel>
       <strong>General settings</strong>
@@ -131,7 +143,7 @@ export default function GeneralControls(props) {
           min="10"
           max="40"
           value={avgSpeed}
-          onChange={(e) => setAvgSpeed(e.target.value)}
+          onChange={(e) => updateAvgSpeed(e.target.value)}
         />
       </label>
       <label>
@@ -144,7 +156,7 @@ export default function GeneralControls(props) {
           max="10"
           step="0.25"
           value={avgCtrlTime}
-          onChange={(e) => setAvgCtrlTime(e.target.value)}
+          onChange={(e) => updateAvgCtrlTime(e.target.value)}
         />
       </label>
     </ControlPanel>

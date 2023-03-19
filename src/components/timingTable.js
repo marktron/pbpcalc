@@ -257,6 +257,13 @@ const TimingTable = (props) => {
           break;
       }
       props.setTimingData(newTimingData);
+      process.env.NODE_ENV === "production" &&
+        typeof window !== "undefined" &&
+        window.gtag("event", "updateControlInfo", {
+          distance: distance,
+          type: type,
+          value: value,
+        });
       return false;
     } else {
       return false;

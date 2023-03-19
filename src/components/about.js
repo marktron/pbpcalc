@@ -140,9 +140,15 @@ function useComponentVisible(initialIsVisible) {
 export default function About(props) {
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(false);
+  const showAboutModal = () => {
+    setIsComponentVisible(true);
+    process.env.NODE_ENV === "production" &&
+      typeof window !== "undefined" &&
+      window.gtag("event", "showAboutModal", { show: true });
+  };
   return (
     <>
-      <HelpIcon onClick={() => setIsComponentVisible(true)}>
+      <HelpIcon onClick={() => showAboutModal()}>
         <span>What’s this all about?</span>
         <FontAwesomeIcon icon={faSquareQuestion} />
       </HelpIcon>
