@@ -305,9 +305,9 @@ const Chart = (props) => {
         id: 1,
         data: props?.timing,
         showLine: true,
-        borderColor: Theme.colors.blue_light,
-        backgroundColor: Theme.colors.blue_light,
-        pointStyle: false,
+        borderColor: Theme.colors.blue_med,
+        backgroundColor: Theme.colors.blue_med,
+        pointStyle: "circle",
         borderWidth: 3,
       },
       {
