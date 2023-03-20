@@ -32,6 +32,9 @@ const HelpIcon = styled.div`
       display: block;
     }
   }
+  @media print {
+    display: none;
+  }
 `;
 const CloseModalIcon = styled.div`
   display: flex;

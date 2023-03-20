@@ -59,6 +59,9 @@ const PageHeadline = styled.div`
     margin-bottom: 5px;
     transform: rotate(-2.5deg);
   }
+  @media print {
+    display: none;
+  }
 `;
 const ContentWrapper = styled.section`
   display: flex;
@@ -73,6 +76,9 @@ const FlagWrapper = styled.div`
   flex-direction: row;
   height: 10px;
   box-shadow: 0 -10px 25px ${(props) => props.theme.colors.gray_med};
+  @media print {
+    display: none;
+  }
 `;
 const StripeBlue = styled.div`
   background-color: ${(props) => props.theme.colors.blue_dark};
@@ -90,6 +96,9 @@ const Footer = styled.footer`
   font-size: 80%;
   text-align: center;
   padding: 0 20px 20px 20px;
+  @media print {
+    display: none;
+  }
   a {
     color: ${(props) => props.theme.colors.gray_med};
     border-bottom: solid 1px ${(props) => props.theme.colors.gray_light};
@@ -266,6 +275,8 @@ export default IndexPage;
 export const Head = () => (
   <>
     <html lang="en" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2023 Paris–Brest–Paris Ride Calculator</title>
     <meta
       name="keywords"

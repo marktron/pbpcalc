@@ -15,7 +15,7 @@ const TimingCell = styled.div`
   &:empty {
     display: none;
   }
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     width: 10%;
     &:before {
       content: none !important;
@@ -26,17 +26,17 @@ const TimingCell = styled.div`
   }
 `;
 const TimingCellLeft = styled(TimingCell)`
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     text-align: left;
   }
 `;
 const TimingCellCenter = styled(TimingCell)`
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     text-align: center;
   }
 `;
 const TimingCellRight = styled(TimingCell)`
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     text-align: right;
   }
 `;
@@ -45,7 +45,7 @@ const CellDistance = styled(TimingCellRight)`
   &:before {
     content: "Distance: ";
   }
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     order: 1;
   }
 `;
@@ -54,7 +54,7 @@ const CellSpeed = styled(TimingCellCenter)`
   &:before {
     content: "Speed (km/h): ";
   }
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     order: 2;
   }
 `;
@@ -63,7 +63,7 @@ const CellElapsedTime = styled(TimingCellLeft)`
   &:before {
     content: "Elapsed Time: ";
   }
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     order: 3;
   }
 `;
@@ -73,7 +73,7 @@ const CellControlName = styled(TimingCellLeft)`
   background-color: ${(props) => props.theme.colors.blue_dark};
   color: ${(props) => props.theme.colors.white};
   border-radius: 6px 6px 0 0;
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     order: 4;
     background-color: transparent;
     border: none;
@@ -92,7 +92,7 @@ const CellTimeAtControl = styled(TimingCellCenter)`
   &:before {
     content: "Hours at Control: ";
   }
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     width: 12% !important;
   }
 `;
@@ -103,7 +103,7 @@ const CellDepartureTime = styled(TimingCellRight)`
   }
 `;
 const HeaderCell = styled.div`
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     width: 10%;
   }
 `;
@@ -124,7 +124,7 @@ const HeaderControl = styled(HeaderCellLeft)`
 `;
 const HeaderArrival = styled(HeaderCellRight)``;
 const HeaderControlTime = styled(HeaderCellCenter)`
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     width: 12%;
   }
 `;
@@ -150,14 +150,21 @@ const TimeTable = styled.div`
     &:focus {
       border-color: ${(props) => props.theme.colors.gray_light};
     }
+    @media print {
+      border: none;
+      background-color: transparent;
+    }
   }
   strong {
     font-weight: 600;
   }
+  /* @media print {
+   margin-top: 100px;
+  } */
 `;
 const TimeTableHeader = styled.div`
   display: none;
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     border-bottom: solid 1px ${(props) => props.theme.colors.gray_light};
     font-size: 90%;
     display: flex;
@@ -179,7 +186,7 @@ const TimeTableRow = styled.div`
     padding: 6px 12px;
     width: 100%;
   }
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     flex-direction: row;
     align-items: stretch;
     border: none;
@@ -203,6 +210,9 @@ const TimeTableRow = styled.div`
         }
       }
     }
+  }
+  @media print {
+    border-bottom: solid 1px ${(props) => props.theme.colors.gray_light};
   }
 `;
 
@@ -367,17 +377,15 @@ const TimingTable = (props) => {
         {/* Arrival time */}
         <CellArrivalTime>
           {!isFirstControl && isNightTime(arrivalTime) && (
-            <>
-              <FontAwesomeIcon
-                icon={faMoon}
-                fixedWidth
-                swapOpacity
-                data-tooltip-id="tooltip-hover"
-                data-tooltip-content="Night"
-              />
-              {arrivalTimeFormatted}
-            </>
+            <FontAwesomeIcon
+              icon={faMoon}
+              fixedWidth
+              swapOpacity
+              data-tooltip-id="tooltip-hover"
+              data-tooltip-content="Night"
+            />
           )}
+          {arrivalTimeFormatted}
         </CellArrivalTime>
         {/* Time at control */}
         <CellTimeAtControl>

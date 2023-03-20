@@ -35,7 +35,7 @@ const ChartWrapper = styled.div`
   padding: 0;
   min-height: 200px;
   max-height: 350px;
-  @media ${(props) => props.theme.devices.tablet} {
+  @media print, ${(props) => props.theme.devices.tablet} {
     min-height: 500px;
     max-height: 700px;
   }

@@ -61,6 +61,9 @@ const ControlPanel = styled.div`
       }
     }
   }
+  @media print {
+    display: none;
+  }
 `;
 const Instructions = styled.div`
   font-weight: 400;
@@ -69,7 +72,9 @@ const Instructions = styled.div`
   padding: 10px 20px;
   border-radius: 5px;
   margin-top: 20px;
-  
+  @media print {
+    display: none;
+  }
 `;
 
 const CloseInstructionsIcon = styled.div`

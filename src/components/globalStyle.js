@@ -37,6 +37,9 @@ const GlobalStyle = createGlobalStyle`
     color: ${(props) => props.theme.colors.gray_med};
     font-family: "Work Sans";
     font-size: 16px;
+    @media print {
+     font-size: 10pt;
+    }
   }
 `;
 
