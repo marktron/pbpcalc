@@ -66,8 +66,6 @@ const ControlPanel = styled.div`
   }
 `;
 const Instructions = styled.div`
-  font-weight: 400;
-  font-family: "Permanent Marker";
   background-color: ${(props) => props.theme.colors.yellow};
   padding: 10px 20px;
   border-radius: 5px;
