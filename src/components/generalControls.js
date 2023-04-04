@@ -92,12 +92,13 @@ const CloseInstructionsIcon = styled.div`
 
 export default function GeneralControls(props) {
   const {
-    avgSpeed,
-    setAvgSpeed,
     avgCtrlTime,
+    avgSpeed,
     setAvgCtrlTime,
-    startWave,
+    setAvgSpeed,
     setStartWave,
+    startWave,
+    strings,
   } = props;
 
   const [showIntroInstructions, setShowIntroInstructions] = useState("false");
@@ -144,28 +145,26 @@ export default function GeneralControls(props) {
               onClick={(e) => hideInstructions()}
             />
           </CloseInstructionsIcon>
-          Instructions: Start by choosing your starting wave, average speed and time spent at controls. Then customize the
-          settings for each stage of your ride. Mouse over the points on the
-          graph above to see more info about each control point.
+          {strings.instructions}
         </Instructions>
       )}
       <ControlPanel>
-        <strong>General settings</strong>
+        <strong>{strings.settings.generalSettings}</strong>
         <label>
-          Starting Wave
+          {strings.settings.startingWave}
           <select
             id="wavePicker"
             value={startWave}
             onChange={(e) => updateStartWave(e.target.value)}
           >
-            <optgroup label="80 hours">
+            <optgroup label={strings.settings.eightyHours}>
               <option value="A">A – 16:00</option>
               <option value="B">B – 16:15</option>
               <option value="C">C – 16:30</option>
               <option value="D">D – 16:45</option>
               <option value="E">E – 17:00</option>
             </optgroup>
-            <optgroup label="90 hours">
+            <optgroup label={strings.settings.ninetyHours}>
               <option value="F">F – 17:15</option>
               <option value="G">G – 17:30</option>
               <option value="H">H – 17:45</option>
@@ -183,7 +182,7 @@ export default function GeneralControls(props) {
               <option value="T">T – 20:45</option>
               <option value="U">U – 21:00</option>
             </optgroup>
-            <optgroup label="84 hours">
+            <optgroup label={strings.settings.eightyFourHours}>
               <option value="V">V – 04:45</option>
               <option value="W">W – 05:00</option>
               <option value="X">X – 05:15</option>
@@ -194,7 +193,7 @@ export default function GeneralControls(props) {
           </select>
         </label>
         <label>
-          Speed (km/h)
+          {strings.settings.speed}
           <input
             type="number"
             id="avgSpeedPicker"
@@ -206,7 +205,7 @@ export default function GeneralControls(props) {
           />
         </label>
         <label>
-          Time at Controls (hours)
+          {strings.settings.timeAtCtrl}
           <input
             type="number"
             id="avgCtrlTimePicker"

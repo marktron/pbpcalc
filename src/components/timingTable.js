@@ -8,7 +8,6 @@ import {
   faFlagSwallowtail,
   faMoon,
 } from "@fortawesome/pro-duotone-svg-icons";
-import { Tooltip } from "react-tooltip";
 
 const TimingCell = styled.div`
   text-align: center;
@@ -230,12 +229,17 @@ const controlIcon = (type) => {
 
 const TimingTable = (props) => {
   const {
-    timing,
-    timingData,
+    avgCtrlTime,
+    avgSpeed,
     controls,
+    language,
+    setTimingData,
     startTime,
     sunriseTimeOfDay,
     sunsetTimeOfDay,
+    timingData,
+    strings,
+    userTiming,
   } = props;
   let displayDate = null;
 
@@ -255,7 +259,7 @@ const TimingTable = (props) => {
   const updateControlInfo = (distance, value, type) => {
     const i = timingData.findIndex((x) => x.distance === distance);
     if (i > -1) {
-      let newTimingData = [...props.timingData];
+      let newTimingData = [...timingData];
       switch (type) {
         case "SPEED":
           newTimingData[i].speedToControl = value;
@@ -266,7 +270,7 @@ const TimingTable = (props) => {
         default:
           break;
       }
-      props.setTimingData(newTimingData);
+      setTimingData(newTimingData);
       process.env.NODE_ENV === "production" &&
         typeof window !== "undefined" &&
         window.gtag("event", "updateControlInfo", {
@@ -282,16 +286,17 @@ const TimingTable = (props) => {
 
   const renderRow = (row, controlIndex) => {
     // Really should have made a less dumb data structure here :/
-    const controlTiming = timing.filter((r) => r.distance === row.distance);
+    const controlTiming = userTiming.filter((r) => r.distance === row.distance);
     const customControls = timingData.filter(
       (r) => r.distance === row.distance
     );
     const arrivalDuration = Duration.fromObject({
       hours: controlTiming[0]?.elapsedTime,
     });
-    const isFirstControl = controlTiming[0]?.distance === timing[0].distance;
+    const isFirstControl =
+      controlTiming[0]?.distance === userTiming[0].distance;
     const isLastControl =
-      controlTiming[0]?.distance === timing[timing.length - 1].distance;
+      controlTiming[0]?.distance === userTiming[userTiming.length - 1].distance;
     let arrivalTime = null;
     let arrivalTimeFormatted = null;
     let departureTime = null;
@@ -299,7 +304,9 @@ const TimingTable = (props) => {
     if (controlIndex > 0) {
       arrivalTime = controlIndex > 0 ? startTime.plus(arrivalDuration) : null;
       if (arrivalTime.toLocaleString(DateTime.DATE_MED) !== displayDate) {
-        arrivalTimeFormatted = arrivalTime.toFormat("ccc T");
+        arrivalTimeFormatted = arrivalTime
+          .setLocale(language)
+          .toFormat("ccc T");
       } else if (
         arrivalTime.toLocaleString(DateTime.DATE_MED) === displayDate
       ) {
@@ -314,7 +321,9 @@ const TimingTable = (props) => {
     if (controlIndex < controls.length - 1) {
       departureTime = startTime.plus(departureDuration);
       if (departureTime.toLocaleString(DateTime.DATE_MED) !== displayDate) {
-        departureTimeFormatted = departureTime.toFormat("ccc T");
+        departureTimeFormatted = departureTime
+          .setLocale(language)
+          .toFormat("ccc T");
       } else if (
         departureTime.toLocaleString(DateTime.DATE_MED) === displayDate
       ) {
@@ -339,7 +348,7 @@ const TimingTable = (props) => {
               value={
                 customControls[0]?.speedToControl
                   ? customControls[0]?.speedToControl
-                  : props.avgSpeed
+                  : avgSpeed
               }
               onChange={(e) =>
                 updateControlInfo(
@@ -368,8 +377,8 @@ const TimingTable = (props) => {
             data-tooltip-id="tooltip-hover"
             data-tooltip-content={
               controlTiming[0]?.type === "FOOD"
-                ? "Food only, not a control point"
-                : "Control point"
+                ? strings.timeTable.foodOnly
+                : strings.timeTable.controlPoint
             }
           />
           <strong>{controlTiming[0]?.location}</strong>
@@ -382,7 +391,7 @@ const TimingTable = (props) => {
               fixedWidth
               swapOpacity
               data-tooltip-id="tooltip-hover"
-              data-tooltip-content="Night"
+              data-tooltip-content={strings.chart.night}
             />
           )}
           {arrivalTimeFormatted}
@@ -401,7 +410,7 @@ const TimingTable = (props) => {
               value={
                 customControls[0]?.timeAtControl
                   ? customControls[0]?.timeAtControl
-                  : props.avgCtrlTime
+                  : avgCtrlTime
               }
               onChange={(e) =>
                 updateControlInfo(
@@ -423,7 +432,7 @@ const TimingTable = (props) => {
                   fixedWidth
                   swapOpacity
                   data-tooltip-id="tooltip-hover"
-                  data-tooltip-content="Night"
+                  data-tooltip-content={strings.chart.night}
                 />
               )}
               {departureTimeFormatted}
@@ -438,17 +447,18 @@ const TimingTable = (props) => {
     <>
       <TimeTable>
         <TimeTableHeader>
-          <HeaderDistance>Distance</HeaderDistance>
-          <HeaderSpeed>Speed</HeaderSpeed>
-          <HeaderElapsed>Elapsed Time</HeaderElapsed>
-          <HeaderControl>Control</HeaderControl>
-          <HeaderArrival>Arrival</HeaderArrival>
-          <HeaderControlTime>Hours at Control</HeaderControlTime>
-          <HeaderDeparture>Departure</HeaderDeparture>
+          <HeaderDistance>{strings.timeTable.distance}</HeaderDistance>
+          <HeaderSpeed>{strings.timeTable.speed}</HeaderSpeed>
+          <HeaderElapsed>{strings.timeTable.elapsedTime}</HeaderElapsed>
+          <HeaderControl>{strings.timeTable.control}</HeaderControl>
+          <HeaderArrival>{strings.timeTable.arrival}</HeaderArrival>
+          <HeaderControlTime>
+            {strings.timeTable.hoursAtCtrl}
+          </HeaderControlTime>
+          <HeaderDeparture>{strings.timeTable.departure}</HeaderDeparture>
         </TimeTableHeader>
         {controls.map((row, index) => renderRow(row, index))}
       </TimeTable>
-      <Tooltip id="tooltip-hover" />
     </>
   );
 };

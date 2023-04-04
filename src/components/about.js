@@ -1,39 +1,31 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
+import chroma from "chroma-js";
 import { OutboundLink } from "gatsby-plugin-google-gtag";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSquareQuestion,
-  faRectangleXmark,
+  faRectangleXmark
 } from "@fortawesome/pro-duotone-svg-icons";
+import {
+  faQuestion
+} from "@fortawesome/pro-light-svg-icons";
 
 const HelpIcon = styled.div`
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  right: 20px;
-  top: 20px;
-  font-size: 26px;
+  font-size: 18px;
   color: ${(props) => props.theme.colors.blue_dark};
-  opacity: 0.75;
-  transition: opacity 0.2s ease;
   cursor: pointer;
-  span {
-    font-size: 16px;
-    padding-right: 10px;
-    line-height: 1;
-    display: none;
-  }
+  line-height: 1;
+  border: solid 1.5px
+    ${(props) => chroma(props.theme.colors.blue_dark).alpha(0.3)};
+  padding: 5px 10px ;
+  border-radius: 4px;
+  transition: opacity 0.2s ease, background 0.2s ease, border 0.2s ease;
+  cursor: pointer;
+
   &:hover {
-    opacity: 1;
-    span {
-      display: block;
-    }
-  }
-  @media print {
-    display: none;
+    border-color: ${(props) => chroma(props.theme.colors.blue_dark).alpha(0.5)};
+    background-color: ${(props) => props.theme.colors.blue_light_translucent};
   }
 `;
 const CloseModalIcon = styled.div`
@@ -53,11 +45,14 @@ const CloseModalIcon = styled.div`
 `;
 const Modal = styled.div`
   top: 0;
-  left: 0;
+  right: 0;
   width: 100vw;
   height: 100vh;
   z-index: 2000;
   position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   padding-top: 2%;
   background-color: rgba(0, 0, 0, 0.4);
 `;
@@ -66,9 +61,7 @@ const ModalContent = styled.div`
   height: 90vh;
   max-height: 750px;
   max-width: 600px;
-  position: relative;
   overflow: hidden;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   background-color: #fefefe;
@@ -141,6 +134,7 @@ function useComponentVisible(initialIsVisible) {
 }
 
 export default function About(props) {
+  const { strings } = props;
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(false);
   const showAboutModal = () => {
@@ -151,15 +145,18 @@ export default function About(props) {
   };
   return (
     <>
-      <HelpIcon onClick={() => showAboutModal()}>
-        <span>What’s this all about?</span>
-        <FontAwesomeIcon icon={faSquareQuestion} />
+      <HelpIcon
+        onClick={() => showAboutModal()}
+        data-tooltip-id="tooltip-hover"
+        data-tooltip-content={strings.metadata.nav.about}
+      >
+        <FontAwesomeIcon icon={faQuestion} />
       </HelpIcon>
       {isComponentVisible && (
         <Modal>
           <ModalContent ref={ref}>
             <ModalHeader>
-              <h2>About this site</h2>
+              <h2>{strings.about.title}</h2>
               <CloseModalIcon>
                 <FontAwesomeIcon
                   icon={faRectangleXmark}
@@ -169,58 +166,38 @@ export default function About(props) {
             </ModalHeader>
             <ModalBody>
               <p>
-                This calculator is designed to help plan your 2023{" "}
-                <OutboundLink
-                  href="https://www.paris-brest-paris.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Paris-Brest-Paris
-                </OutboundLink>{" "}
-                timing strategy. How fast should you go? Where should you stop
-                to sleep? How much time can you afford to spend eating pastries
-                at control points? Play around with the options to test various
-                scenarios.
+                {strings.formatString(
+                  strings.about.aboutCopy,
+                  <OutboundLink
+                    href="https://www.paris-brest-paris.org/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Paris-Brest-Paris
+                  </OutboundLink>,
+                  <>
+                    <br />
+                    <br />
+                  </>
+                )}
               </p>
-              <p>
-                In addition to setting general averages for speed and time at
-                controls, you can also customize those for each segment. At some
-                point in the near future, you will be able to download or print
-                your plan.
-              </p>
-              <p>
-                Pro tip: Mouse over the control points on the graph for a
-                breakdown of your time in hand and distance to the next control.
-              </p>
-              <h3>Some important factors to consider</h3>
+              <h3>{strings.about.factorsTitle}</h3>
               <ul>
-                <li>You will probably start faster than you intend.</li>
-                <li>You will ride slower at night.</li>
-                <li>
-                  The weather will affect your speed and how long you spend at
-                  controls.
-                </li>
-                <li>
-                  A lot will happen during 1200km. While this calculator can
-                  help plan your ride, be prepared to adapt in the moment as
-                  circumstances change.
-                </li>
+                <li>{strings.about.factorsStart}</li>
+                <li>{strings.about.factorsNight}</li>
+                <li>{strings.about.factorsWeather}</li>
+                <li>{strings.about.factorsPrepared}</li>
               </ul>
-              <h3>Questions & feedback</h3>
+              <h3>{strings.about.questionsTitle}</h3>
               <p>
-                This is the part where I should reveal that I haven’t ridden PBP
-                yet, so there might be assumptions made here that are completely
-                wrong! Please report any bugs on{" "}
-                <OutboundLink href="https://github.com/marktron/pbpcalc/issues">
-                  Github
-                </OutboundLink>
-                . Feel free to send any other feedback on the platforms below.{" "}
+                {strings.formatString(
+                  strings.about.questionsCopy,
+                  <OutboundLink href="https://github.com/marktron/pbpcalc/issues">
+                    Github
+                  </OutboundLink>
+                )}
               </p>
-              <p>
-                See you on the road!
-                <br />
-                Mark Allen (90 Hours / Wave K)
-              </p>
+              <p>{strings.formatString(strings.about.signOff, <br />)}</p>
               <p>
                 <OutboundLink
                   href="https://markallen.io"

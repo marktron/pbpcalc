@@ -1,15 +1,18 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import LocalizedStrings from "react-localization";
 import { DateTime } from "luxon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCanadianMapleLeaf } from "@fortawesome/free-brands-svg-icons";
+import { Tooltip } from "react-tooltip";
 import Chart from "../components/chart";
 import GeneralControls from "../components/generalControls";
 import startWaves from "../data/startWaves";
 import controls from "../data/controls";
+import localizations from "../data/localizations";
 import TimingTable from "../components/timingTable";
-import About from "../components/about";
+import Nav from "../components/nav";
 
 // The following import prevents a Font Awesome icon server-side rendering bug,
 // where the icons flash from a very large icon down to a properly sized one:
@@ -121,7 +124,7 @@ const sunriseTimeOfDay = "07:00:00.000";
 const sunsetTimeOfDay = "21:00:00.000";
 
 let timingDataInit = [];
-let timing = [];
+let userTiming = [];
 
 for (let i = 0; i < controls.length; i++) {
   timingDataInit.push({
@@ -134,16 +137,28 @@ for (let i = 0; i < controls.length; i++) {
 }
 
 const IndexPage = (props) => {
+  const [language, setLanguage] = useState("en");
   const [startWave, setStartWave] = useState("G");
   const [avgSpeed, setAvgSpeed] = useState(20);
   const [avgCtrlTime, setAvgCtrlTime] = useState(1);
   const [timingData, setTimingData] = useState(timingDataInit);
-  // Handle mobile/desktop layouts (seems like CSS is handling all of this fine for now)
-  // const [screenWidth, setScreenWidth] = React.useState(window.innerWidth);
-  // // const breakpoint = 600;
-  // React.useEffect(() => {
-  //   window.addEventListener("resize", () => setScreenWidth(window.innerWidth));
-  // }, []);
+
+  useEffect(() => {
+    const storedLang = localStorage.getItem("language");
+    if (storedLang) {
+      setLanguage(storedLang);
+    } else {
+      updateLanguage("en");
+    }
+  }, []);
+
+  const updateLanguage = (lang) => {
+    setLanguage(lang);
+    localStorage.setItem("language", lang);
+  };
+
+  let strings = new LocalizedStrings(localizations);
+  strings.setLanguage(language);
 
   let waveInfo = startWaves.find(({ wave }) => wave === startWave);
 
@@ -153,7 +168,7 @@ const IndexPage = (props) => {
   for (let i = 0; i < timingData.length; i++) {
     if (i > 0) {
       elapsedTime = (
-        Number(timing[t - 1].elapsedTime) +
+        Number(userTiming[t - 1].elapsedTime) +
         Number(timingData[i].distance - timingData[i - 1].distance) /
           Number(
             timingData[i]?.speedToControl
@@ -161,7 +176,7 @@ const IndexPage = (props) => {
               : avgSpeed
           )
       ).toFixed(3);
-      timing[t] = {
+      userTiming[t] = {
         distance: timingData[i].distance,
         elapsedTime: Number(elapsedTime).toFixed(3),
         location: timingData[i].location,
@@ -178,7 +193,7 @@ const IndexPage = (props) => {
               : avgCtrlTime
           )
         ).toFixed(3);
-        timing[t] = {
+        userTiming[t] = {
           distance: timingData[i].distance,
           elapsedTime: elapsedTime,
           location: timingData[i].location,
@@ -188,7 +203,7 @@ const IndexPage = (props) => {
       }
     } else {
       // First control (starting point)
-      timing[t] = {
+      userTiming[t] = {
         distance: timingData[i].distance,
         elapsedTime: Number(elapsedTime).toFixed(3),
         location: timingData[i].location,
@@ -214,48 +229,51 @@ const IndexPage = (props) => {
           <StripeWhite></StripeWhite>
           <StripeRed></StripeRed>
         </FlagWrapper>
-
+        <Nav
+          updateLanguage={updateLanguage}
+          language={language}
+          strings={strings}
+        />
         <PageHeadline>
-          <em>(Totally Unofficial)</em>
-          <h1>2023 Paris–Brest–Paris Ride Calculator</h1>
+          <em>{strings.metadata.header.unofficial}</em>
+          <h1>{strings.metadata.header.title}</h1>
         </PageHeadline>
         <ContentWrapper>
           <Chart
-            waveInfo={waveInfo}
-            avgSpeed={avgSpeed}
-            avgCtrlTime={avgCtrlTime}
-            props={props}
-            timing={timing}
-            timingData={timingData}
+            language={language}
+            strings={strings}
             sunriseTimeOfDay={sunriseTimeOfDay}
             sunsetTimeOfDay={sunsetTimeOfDay}
+            userTiming={userTiming}
+            waveInfo={waveInfo}
           />
           <GeneralControls
-            startWave={startWave}
-            setStartWave={setStartWave}
-            avgSpeed={avgSpeed}
-            setAvgSpeed={setAvgSpeed}
             avgCtrlTime={avgCtrlTime}
+            avgSpeed={avgSpeed}
             setAvgCtrlTime={setAvgCtrlTime}
-            timingData={timingData}
-            setTimingData={setTimingData}
+            setAvgSpeed={setAvgSpeed}
+            setStartWave={setStartWave}
+            startWave={startWave}
+            strings={strings}
           />
           <TimingTable
-            timing={timing}
-            avgSpeed={avgSpeed}
             avgCtrlTime={avgCtrlTime}
+            avgSpeed={avgSpeed}
             controls={controls}
-            startTime={startTime}
-            timingData={timingData}
+            language={language}
             setTimingData={setTimingData}
+            startTime={startTime}
             sunriseTimeOfDay={sunriseTimeOfDay}
             sunsetTimeOfDay={sunsetTimeOfDay}
+            timingData={timingData}
+            strings={strings}
+            userTiming={userTiming}
           />
         </ContentWrapper>
       </Page>
       <Footer>
         <FontAwesomeIcon icon={faCanadianMapleLeaf} />
-        Made in Canada by{" "}
+        {strings.metadata.footer.madeBy}{" "}
         <a
           href="https://www.strava.com/athletes/marktron3k"
           target="_blank"
@@ -263,9 +281,9 @@ const IndexPage = (props) => {
         >
           Mark Allen
         </a>{" "}
-        (Starting in wave K, say hi when you pass me!)
+        {strings.metadata.footer.startingWave}
       </Footer>
-      <About />
+      <Tooltip id="tooltip-hover" />
     </>
   );
 };
@@ -275,7 +293,7 @@ export default IndexPage;
 export const Head = () => (
   <>
     <html lang="en" />
-    <meta charset="UTF-8" />
+    <meta charSet="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2023 Paris–Brest–Paris Ride Calculator</title>
     <meta
@@ -306,9 +324,6 @@ export const Head = () => (
       property="twitter:description"
       content="Plan your 2023 Paris-Brest-Paris randonneuring adventure with this (totally unofficial) PBP Ride Calculator. Optimize your schedule, plan your strategy, and stay ahead of the time limits."
     />
-    <meta
-      property="twitter:image"
-      content="https:/pbpcalc.com/og-image.png"
-    />
+    <meta property="twitter:image" content="https:/pbpcalc.com/og-image.png" />
   </>
 );

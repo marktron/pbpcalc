@@ -62,15 +62,23 @@ defaults.font.family = "Work Sans";
 defaults.color = Theme.colors.gray_med;
 
 const Chart = (props) => {
+  const {
+    language,
+    strings,
+    sunriseTimeOfDay,
+    sunsetTimeOfDay,
+    userTiming,
+    waveInfo,
+  } = props;
   let startTime = "";
   let nightAnnotations = {};
 
-  if (props?.waveInfo?.startTime) {
+  if (waveInfo?.startTime) {
     startTime = DateTime.fromISO(
       "2023-08-" +
-        (props.waveInfo.timeLimit === 84 ? "21" : "20") +
+        (waveInfo.timeLimit === 84 ? "21" : "20") +
         "T" +
-        props.waveInfo.startTime +
+        waveInfo.startTime +
         ":00.000"
     );
     for (let i = 0; i < 4; i++) {
@@ -78,32 +86,32 @@ const Chart = (props) => {
       let sunriseTime = null;
       let sunsetHours = 0;
       let sunriseHours = 0;
-      if (props.waveInfo.timeLimit === 84) {
+      if (waveInfo.timeLimit === 84) {
         sunsetTime = DateTime.fromISO(
           `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
             startTime.day + i - 1
-          }T${props?.sunsetTimeOfDay}`
+          }T${sunsetTimeOfDay}`
         );
         sunriseTime = DateTime.fromISO(
           `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
             startTime.day + i
-          }T${props?.sunriseTimeOfDay}`
+          }T${sunriseTimeOfDay}`
         );
       } else {
         sunsetTime = DateTime.fromISO(
           `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
             startTime.day + i
-          }T${props?.sunsetTimeOfDay}`
+          }T${sunsetTimeOfDay}`
         );
 
         sunriseTime = DateTime.fromISO(
           `${startTime.year}-${startTime.month < 10 && "0"}${startTime.month}-${
             startTime.day + i + 1
-          }T${props?.sunriseTimeOfDay}`
+          }T${sunriseTimeOfDay}`
         );
       }
       sunsetHours =
-        i === 0 && props.waveInfo.timeLimit === 84
+        i === 0 && waveInfo.timeLimit === 84
           ? 0
           : Interval.fromDateTimes(startTime, sunsetTime).length("hours");
       sunriseHours = Interval.fromDateTimes(startTime, sunriseTime).length(
@@ -117,7 +125,7 @@ const Chart = (props) => {
         borderWidth: 0,
         drawTime: "beforeDatasetsDraw",
         label: {
-          content: "Night",
+          content: strings.chart.night,
           color: Theme.colors.blue_dark_translucent,
           display: true,
           font: {
@@ -141,7 +149,7 @@ const Chart = (props) => {
       controlInfo?.location !== undefined &&
       controlInfo?.distance !== undefined
     ) {
-      return `${controlInfo.location} ${controlInfo.distance}km`;
+      return `${controlInfo.location} ${controlInfo.distance} km`;
     } else {
       return false;
     }
@@ -154,18 +162,16 @@ const Chart = (props) => {
       controlInfo?.distance !== undefined &&
       controlInfo?.elapsedTime !== undefined
     ) {
-      const timeLimit = props?.waveInfo?.timeLimit
-        ? props?.waveInfo?.timeLimit
-        : 90;
+      const timeLimit = waveInfo?.timeLimit ? waveInfo?.timeLimit : 90;
       const avgTime = (timeLimit / 1220) * controlInfo?.distance;
       const timeInHand = Duration.fromDurationLike({
         hours: avgTime - controlInfo?.elapsedTime,
       });
 
       if (timeInHand.valueOf() < 0) {
-        return `Time in hand: -${timeInHand.negate().toFormat("hh:mm")}`;
+        return `${strings.chart.timeInHand}: -${timeInHand.negate().toFormat("hh:mm")}`;
       } else {
-        return `Time in hand: ${timeInHand.toFormat("hh:mm")}`;
+        return `${strings.chart.timeInHand}: ${timeInHand.toFormat("hh:mm")}`;
       }
     } else {
       return false;
@@ -186,19 +192,22 @@ const Chart = (props) => {
       const elapsedTime = Duration.fromDurationLike({
         hours: controlInfo.elapsedTime,
       });
-      const labelTime = startTime.plus(elapsedTime).toFormat("ccc T");
+      const labelTime = startTime
+        .setLocale(language)
+        .plus(elapsedTime)
+        .toFormat("ccc T");
 
       return `${
         controlInfo.elapsedTime === controlItems[0].elapsedTime
-          ? "Arrival"
-          : "Departure"
-      } time: ${labelTime}`;
+          ? strings.chart.arrivalTime
+          : strings.chart.departureTime
+      }: ${labelTime}`;
     } else {
       return false;
     }
   };
   const toolTipFilter = (tooltipItems, data) => {
-    if (tooltipItems?.dataset?.label === "Projected Time") {
+    if (tooltipItems?.dataset?.label === strings.chart.projectedTime) {
       return true;
     } else {
       return false;
@@ -225,7 +234,7 @@ const Chart = (props) => {
         tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex + 2]?.distance;
     }
     if (nextControlName !== undefined) {
-      return `Distance to ${nextControlName}: ${Math.round(
+      return `${strings.chart.distanceTo} ${nextControlName}: ${Math.round(
         nextControlDistance - elapsedDistance
       )} km`;
     } else {
@@ -248,17 +257,17 @@ const Chart = (props) => {
         max: 1220,
         title: {
           display: true,
-          text: "Kilometers",
+          text: strings.chart.xAxisLabel,
           color: Theme.colors.gray_light,
         },
       },
       y: {
         type: "linear",
         min: 0,
-        max: props?.waveInfo?.timeLimit ? props?.waveInfo?.timeLimit : 90,
+        max: waveInfo?.timeLimit ? waveInfo?.timeLimit : 90,
         title: {
           display: true,
-          text: "Hours",
+          text: strings.chart.yAxisLabel,
           color: Theme.colors.gray_light,
         },
       },
@@ -298,12 +307,28 @@ const Chart = (props) => {
     },
   };
 
+  let waveAvgString = strings.chart.eightyHourAvg;
+  switch (waveInfo?.timeLimit) {
+  case 80:
+    waveAvgString = strings.chart.eightyHourAvg;
+    break;
+  case 84:
+    waveAvgString = strings.chart.eightyFourHourAvg;
+    break;
+  case 90:
+    waveAvgString = strings.chart.ninetyHourAvg;
+    break;
+  default:
+    break;
+}
+
+;
   const data = {
     datasets: [
       {
-        label: "Projected Time",
+        label: strings.chart.projectedTime,
         id: 1,
-        data: props?.timing,
+        data: userTiming,
         showLine: true,
         borderColor: Theme.colors.blue_med,
         backgroundColor: Theme.colors.blue_med,
@@ -311,18 +336,14 @@ const Chart = (props) => {
         borderWidth: 3,
       },
       {
-        label:
-          (props?.waveInfo?.timeLimit ? props?.waveInfo?.timeLimit : 90) +
-          " Hour Average",
+        label: waveAvgString,
         id: 2,
         animation: false,
         data: [
           { distance: 0, elapsedTime: 0 },
           {
             distance: 1220,
-            elapsedTime: props?.waveInfo?.timeLimit
-              ? props?.waveInfo?.timeLimit
-              : 90,
+            elapsedTime: waveInfo?.timeLimit ? waveInfo?.timeLimit : 90,
           },
         ],
         showLine: true,
@@ -335,14 +356,14 @@ const Chart = (props) => {
   };
 
   let elapsedTimeDisplay = Duration.fromDurationLike({
-    hours: props?.timing[props?.timing.length - 1].elapsedTime,
+    hours: userTiming[userTiming?.length - 1].elapsedTime,
   }).toFormat("hh:mm");
   return (
     <>
       <ChartWrapper>
         <Scatter datasetIdKey="id" data={data} options={options} />
       </ChartWrapper>
-      <Projection>Projected Time – {elapsedTimeDisplay}</Projection>
+      <Projection>{`${strings.chart.projectedFinishTime} – ${elapsedTimeDisplay}`}</Projection>
     </>
   );
 };
