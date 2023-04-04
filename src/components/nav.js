@@ -43,7 +43,6 @@ const LanguagePicker = styled.div`
   }
   span {
     margin-left: 5px;
-    
   }
   &:hover {
     border-color: ${(props) => chroma(props.theme.colors.blue_dark).alpha(0.5)};
@@ -56,10 +55,18 @@ const LanguagePicker = styled.div`
 
 export default function Nav(props) {
   const { strings, language, updateLanguage } = props;
+
+  const changeLang = (lang) => {
+    updateLanguage(lang);
+    process.env.NODE_ENV === "production" &&
+      typeof window !== "undefined" &&
+      window.gtag("event", "changeLanguage", { lang: lang });
+  };
+
   return (
     <NavContainer>
       <LanguagePicker
-        onClick={() => updateLanguage(language === "en" ? "fr" : "en")}
+        onClick={() => changeLang(language === "en" ? "fr" : "en")}
         data-tooltip-id="tooltip-hover"
         data-tooltip-content={
           language === "en"
@@ -74,9 +81,7 @@ export default function Nav(props) {
           {language === "en" ? "🇬🇧" : "🇫🇷"}
         </span>
       </LanguagePicker>
-      <About
-        strings={strings}
-      />
+      <About strings={strings} />
     </NavContainer>
   );
 }
