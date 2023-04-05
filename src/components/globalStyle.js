@@ -35,7 +35,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     color: ${(props) => props.theme.colors.gray_med};
-    font-family: "Work Sans";
+    font-family: "Work Sans", sans-serif;
     font-size: 16px;
     @media print {
      font-size: 10pt;

@@ -58,7 +58,7 @@ for (let i = 0; i < controls.length; i++) {
 }
 
 defaults.font.size = 14;
-defaults.font.family = "Work Sans";
+defaults.font.family = "Work Sans, sans-serif";
 defaults.color = Theme.colors.gray_med;
 
 const Chart = (props) => {

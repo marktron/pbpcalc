@@ -57,7 +57,7 @@ const PageHeadline = styled.div`
   }
   em {
     font-weight: 400;
-    font-family: "Permanent Marker";
+    font-family: "Permanent Marker", sans-serif;
     font-size: 1.5rem;
     margin-bottom: 5px;
     transform: rotate(-2.5deg);
@@ -138,7 +138,7 @@ for (let i = 0; i < controls.length; i++) {
 
 const IndexPage = (props) => {
   const [language, setLanguage] = useState("en");
-  const [startWave, setStartWave] = useState("G");
+  const [startWave, setStartWave] = useState();
   const [avgSpeed, setAvgSpeed] = useState(20);
   const [avgCtrlTime, setAvgCtrlTime] = useState(1);
   const [timingData, setTimingData] = useState(timingDataInit);
@@ -150,11 +150,43 @@ const IndexPage = (props) => {
     } else {
       updateLanguage("en");
     }
+    const storedStartWave = localStorage.getItem("startWave");
+    if (storedStartWave) {
+      setStartWave(storedStartWave);
+    } else {
+      updateStartWave("G");
+    }
+    const storedAvgSpeed = localStorage.getItem("avgSpeed");
+    if (storedAvgSpeed) {
+      setAvgSpeed(storedAvgSpeed);
+    } else {
+      updateAvgSpeed(20);
+    }
+    const storedAvgCtrlTime = localStorage.getItem("avgCtrlTime");
+    if (storedAvgCtrlTime) {
+      setAvgCtrlTime(storedAvgCtrlTime);
+    } else {
+      updateAvgCtrlTime(1);
+    }
   }, []);
 
   const updateLanguage = (lang) => {
     setLanguage(lang);
     localStorage.setItem("language", lang);
+  };
+  
+  // TODO: This should all probably be a single object 
+  const updateStartWave = (wave) => {
+    setStartWave(wave);
+    localStorage.setItem("startWave", wave);
+  };
+  const updateAvgSpeed = (speed) => {
+    setAvgSpeed(speed);
+    localStorage.setItem("avgSpeed", speed);
+  };
+  const updateAvgCtrlTime = (hours) => {
+    setAvgCtrlTime(hours);
+    localStorage.setItem("avgCtrlTime", hours);
   };
 
   let strings = new LocalizedStrings(localizations);
@@ -215,9 +247,9 @@ const IndexPage = (props) => {
 
   let startTime = DateTime.fromISO(
     "2023-08-" +
-      (waveInfo.timeLimit === 84 ? "21" : "20") +
+      (waveInfo?.timeLimit === 84 ? "21" : "20") +
       "T" +
-      waveInfo.startTime +
+      waveInfo?.startTime +
       ":00.000"
   );
 
@@ -250,11 +282,11 @@ const IndexPage = (props) => {
           <GeneralControls
             avgCtrlTime={avgCtrlTime}
             avgSpeed={avgSpeed}
-            setAvgCtrlTime={setAvgCtrlTime}
-            setAvgSpeed={setAvgSpeed}
-            setStartWave={setStartWave}
             startWave={startWave}
             strings={strings}
+            updateAvgCtrlTime={updateAvgCtrlTime}
+            updateAvgSpeed={updateAvgSpeed}
+            updateStartWave={updateStartWave}
           />
           <TimingTable
             avgCtrlTime={avgCtrlTime}

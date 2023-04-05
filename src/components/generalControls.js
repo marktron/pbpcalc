@@ -92,11 +92,11 @@ export default function GeneralControls(props) {
   const {
     avgCtrlTime,
     avgSpeed,
-    setAvgCtrlTime,
-    setAvgSpeed,
-    setStartWave,
     startWave,
     strings,
+    updateAvgCtrlTime,
+    updateAvgSpeed,
+    updateStartWave,
   } = props;
 
   const [showIntroInstructions, setShowIntroInstructions] = useState("false");
@@ -111,23 +111,23 @@ export default function GeneralControls(props) {
     }
   }, []);
 
-  const updateStartWave = (wave) => {
-    setStartWave(wave);
+  const changeStartWave = (wave) => {
+    updateStartWave(wave);
     process.env.NODE_ENV === "production" &&
       typeof window !== "undefined" &&
       window.gtag("event", "setStartingWave", { wave: wave });
   };
-  const updateAvgSpeed = (speed) => {
-    setAvgSpeed(speed);
+  const changeAvgSpeed = (speed) => {
+    updateAvgSpeed(speed);
     process.env.NODE_ENV === "production" &&
       typeof window !== "undefined" &&
-      window.gtag("event", "setAvgSpeed", { speed: speed });
+      window.gtag("event", "updateAvgSpeed", { speed: speed });
   };
-  const updateAvgCtrlTime = (time) => {
-    setAvgCtrlTime(time);
+  const changeAvgCtrlTime = (time) => {
+    updateAvgCtrlTime(time);
     process.env.NODE_ENV === "production" &&
       typeof window !== "undefined" &&
-      window.gtag("event", "setAvgCtrlTime", { time: time });
+      window.gtag("event", "updateAvgCtrlTime", { time: time });
   };
   const hideInstructions = () => {
     setShowIntroInstructions("false");
@@ -153,7 +153,7 @@ export default function GeneralControls(props) {
           <select
             id="wavePicker"
             value={startWave}
-            onChange={(e) => updateStartWave(e.target.value)}
+            onChange={(e) => changeStartWave(e.target.value)}
           >
             <optgroup label={strings.settings.eightyHours}>
               <option value="A">A – 16:00</option>
@@ -199,7 +199,7 @@ export default function GeneralControls(props) {
             min="10"
             max="40"
             value={avgSpeed}
-            onChange={(e) => updateAvgSpeed(e.target.value)}
+            onChange={(e) => changeAvgSpeed(e.target.value)}
           />
         </label>
         <label>
@@ -212,7 +212,7 @@ export default function GeneralControls(props) {
             max="10"
             step="0.25"
             value={avgCtrlTime}
-            onChange={(e) => updateAvgCtrlTime(e.target.value)}
+            onChange={(e) => changeAvgCtrlTime(e.target.value)}
           />
         </label>
       </ControlPanel>
