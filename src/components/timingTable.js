@@ -215,6 +215,21 @@ const TimeTableRow = styled.div`
   }
 `;
 
+const ClosedControl = styled.span`
+  color: ${(props) => props.theme.colors.white};
+  background-color: ${(props) => props.theme.colors.red};
+  border-radius: 2px;
+  margin-top: 5px;
+  display: block;
+  @media print, ${(props) => props.theme.devices.tablet} {
+    color: ${(props) => props.theme.colors.red};
+    margin-left: 5px;
+    margin-top: 0;
+    background-color: transparent;
+    display: inline;
+  }
+`;
+
 const controlIcon = (type) => {
   switch (type) {
     case "START":
@@ -240,6 +255,7 @@ const TimingTable = (props) => {
     timingData,
     strings,
     userTiming,
+    waveInfo,
   } = props;
   let displayDate = null;
 
@@ -331,6 +347,26 @@ const TimingTable = (props) => {
       }
       displayDate = departureTime.toLocaleString(DateTime.DATE_MED);
     }
+
+    const closedControl = (startTime, elapsedTime, closeTimeMinutes) => {
+      if (elapsedTime > closeTimeMinutes / 60) {
+        const closedDuration = Duration.fromObject({
+          minutes: closeTimeMinutes,
+        });
+        const displayTime = startTime.plus(closedDuration);
+        return (
+          <ClosedControl>
+            {strings.formatString(
+              strings.timeTable.controlClosed,
+              displayTime.toFormat("T")
+            )}
+          </ClosedControl>
+        );
+      } else {
+        return null;
+      }
+    };
+
     return (
       <TimeTableRow key={row.distance}>
         {/* Distance */}
@@ -382,6 +418,12 @@ const TimingTable = (props) => {
             }
           />
           <strong>{controlTiming[0]?.location}</strong>
+          {controlTiming[0]?.type === "CONTROL" &&
+            closedControl(
+              startTime,
+              controlTiming[0]?.elapsedTime,
+              controlTiming[0]?.closingTime?.[`hours${waveInfo?.timeLimit}`]
+            )}
         </CellControlName>
         {/* Arrival time */}
         <CellArrivalTime>
@@ -452,9 +494,7 @@ const TimingTable = (props) => {
           <HeaderElapsed>{strings.timeTable.elapsedTime}</HeaderElapsed>
           <HeaderControl>{strings.timeTable.control}</HeaderControl>
           <HeaderArrival>{strings.timeTable.arrival}</HeaderArrival>
-          <HeaderControlTime>
-            {strings.timeTable.hoursAtCtrl}
-          </HeaderControlTime>
+          <HeaderControlTime>{strings.timeTable.hoursAtCtrl}</HeaderControlTime>
           <HeaderDeparture>{strings.timeTable.departure}</HeaderDeparture>
         </TimeTableHeader>
         {controls.map((row, index) => renderRow(row, index))}

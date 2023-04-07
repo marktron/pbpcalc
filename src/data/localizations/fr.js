@@ -47,6 +47,7 @@ const fr = {
     speed: "Vitesse",
     elapsedTime: "Temps écoulé",
     control: "Contrôle",
+    controlClosed: "Contrôle fermé à {0}",
     arrival: "Arrivée",
     hoursAtCtrl: "Heures au contrôle",
     departure: "Départ",

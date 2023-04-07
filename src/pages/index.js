@@ -128,11 +128,9 @@ let userTiming = [];
 
 for (let i = 0; i < controls.length; i++) {
   timingDataInit.push({
-    distance: controls[i].distance,
-    location: controls[i].location,
+    ...controls[i],
     speedToControl: null,
     timeAtControl: null,
-    type: controls[i].type,
   });
 }
 
@@ -174,8 +172,8 @@ const IndexPage = (props) => {
     setLanguage(lang);
     localStorage.setItem("language", lang);
   };
-  
-  // TODO: This should all probably be a single object 
+
+  // TODO: This should all probably be a single object
   const updateStartWave = (wave) => {
     setStartWave(wave);
     localStorage.setItem("startWave", wave);
@@ -209,10 +207,8 @@ const IndexPage = (props) => {
           )
       ).toFixed(3);
       userTiming[t] = {
-        distance: timingData[i].distance,
+        ...timingData[i],
         elapsedTime: Number(elapsedTime).toFixed(3),
-        location: timingData[i].location,
-        type: timingData[i].type,
       };
       t++;
       if (i < timingData.length - 1) {
@@ -226,20 +222,16 @@ const IndexPage = (props) => {
           )
         ).toFixed(3);
         userTiming[t] = {
-          distance: timingData[i].distance,
+          ...timingData[i],
           elapsedTime: elapsedTime,
-          location: timingData[i].location,
-          type: timingData[i].type,
         };
         t++;
       }
     } else {
       // First control (starting point)
       userTiming[t] = {
-        distance: timingData[i].distance,
+        ...timingData[i],
         elapsedTime: Number(elapsedTime).toFixed(3),
-        location: timingData[i].location,
-        type: timingData[i].type,
       };
       t++;
     }
@@ -300,6 +292,7 @@ const IndexPage = (props) => {
             timingData={timingData}
             strings={strings}
             userTiming={userTiming}
+            waveInfo={waveInfo}
           />
         </ContentWrapper>
       </Page>

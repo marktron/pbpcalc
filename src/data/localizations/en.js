@@ -46,6 +46,7 @@ const en = {
     speed: "Speed",
     elapsedTime: "Elapsed Time",
     control: "Control",
+    controlClosed: "Control closed at {0}",
     arrival: "Arrival",
     hoursAtCtrl: "Hours at Control",
     departure: "Departure",
