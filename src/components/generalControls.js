@@ -118,16 +118,24 @@ export default function GeneralControls(props) {
       window.gtag("event", "setStartingWave", { wave: wave });
   };
   const changeAvgSpeed = (speed) => {
-    updateAvgSpeed(speed);
-    process.env.NODE_ENV === "production" &&
-      typeof window !== "undefined" &&
-      window.gtag("event", "updateAvgSpeed", { speed: speed });
+    if (!isNaN(speed)) {
+      updateAvgSpeed(speed);
+      process.env.NODE_ENV === "production" &&
+        typeof window !== "undefined" &&
+        window.gtag("event", "updateAvgSpeed", { speed: speed });
+    } else {
+      return false;
+    }
   };
   const changeAvgCtrlTime = (time) => {
-    updateAvgCtrlTime(time);
-    process.env.NODE_ENV === "production" &&
-      typeof window !== "undefined" &&
-      window.gtag("event", "updateAvgCtrlTime", { time: time });
+    if (!isNaN(time)) {
+      updateAvgCtrlTime(time);
+      process.env.NODE_ENV === "production" &&
+        typeof window !== "undefined" &&
+        window.gtag("event", "updateAvgCtrlTime", { time: time });
+    } else {
+      return false;
+    }
   };
   const hideInstructions = () => {
     setShowIntroInstructions("false");
@@ -193,11 +201,11 @@ export default function GeneralControls(props) {
         <label>
           {strings.settings.speed}
           <input
-            type="number"
+            type="text"
+            pattern="[0-9]*"
+            inputmode="numeric"
             id="avgSpeedPicker"
             name="avgSpeedPicker"
-            min="10"
-            max="40"
             value={avgSpeed}
             onChange={(e) => changeAvgSpeed(e.target.value)}
           />
@@ -205,12 +213,11 @@ export default function GeneralControls(props) {
         <label>
           {strings.settings.timeAtCtrl}
           <input
-            type="number"
+            type="text"
+            pattern="[0-9]*"
+            inputmode="numeric"
             id="avgCtrlTimePicker"
             name="avgCtrlTimePicker"
-            min="0"
-            max="10"
-            step="0.25"
             value={avgCtrlTime}
             onChange={(e) => changeAvgCtrlTime(e.target.value)}
           />

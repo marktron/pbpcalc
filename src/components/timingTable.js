@@ -273,6 +273,10 @@ const TimingTable = (props) => {
   };
 
   const updateControlInfo = (distance, value, type) => {
+    if (isNaN(value)) {
+      // assumes all values are numbers (just speed and time at control)
+      return false;
+    }
     const i = timingData.findIndex((x) => x.distance === distance);
     if (i > -1) {
       let newTimingData = [...timingData];
@@ -375,12 +379,12 @@ const TimingTable = (props) => {
         <CellSpeed>
           {!isFirstControl && (
             <input
-              type="number"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
               aria-label={`Speed to ${controlTiming[0]?.location} control`}
               id={`speedPicker_${row.distance}`}
               name={`speedPicker_${row.distance}`}
-              min="10"
-              max="40"
               value={
                 customControls[0]?.speedToControl
                   ? customControls[0]?.speedToControl
@@ -442,13 +446,12 @@ const TimingTable = (props) => {
         <CellTimeAtControl>
           {!isFirstControl && !isLastControl && (
             <input
-              type="number"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]*"
               aria-label={`Hours at ${controlTiming[0]?.location} control`}
               id={`ctrlTimePicker_${row.distance}`}
               name={`ctrlTimePicker_${row.distance}`}
-              min="0"
-              max="10"
-              step="0.25"
               value={
                 customControls[0]?.timeAtControl
                   ? customControls[0]?.timeAtControl

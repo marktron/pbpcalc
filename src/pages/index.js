@@ -138,7 +138,7 @@ const IndexPage = (props) => {
   const [language, setLanguage] = useState("en");
   const [startWave, setStartWave] = useState();
   const [avgSpeed, setAvgSpeed] = useState(20);
-  const [avgCtrlTime, setAvgCtrlTime] = useState(1);
+  const [avgCtrlTime, setAvgCtrlTime] = useState(0.5);
   const [timingData, setTimingData] = useState(timingDataInit);
 
   useEffect(() => {
@@ -164,7 +164,7 @@ const IndexPage = (props) => {
     if (storedAvgCtrlTime) {
       setAvgCtrlTime(storedAvgCtrlTime);
     } else {
-      updateAvgCtrlTime(1);
+      updateAvgCtrlTime(0.5);
     }
   }, []);
 
