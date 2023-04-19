@@ -380,7 +380,7 @@ const TimingTable = (props) => {
           {!isFirstControl && (
             <input
               type="text"
-              inputmode="numeric"
+              inputmode="decimal"
               pattern="[0-9]*"
               aria-label={`Speed to ${controlTiming[0]?.location} control`}
               id={`speedPicker_${row.distance}`}
@@ -447,7 +447,7 @@ const TimingTable = (props) => {
           {!isFirstControl && !isLastControl && (
             <input
               type="text"
-              inputmode="numeric"
+              inputmode="decimal"
               pattern="[0-9]*"
               aria-label={`Hours at ${controlTiming[0]?.location} control`}
               id={`ctrlTimePicker_${row.distance}`}
