@@ -6,7 +6,7 @@ const en = {
     },
     footer: {
       madeBy: "Made in Canada by",
-      startingWave: "(Starting in wave K, say hi when you pass me!)",
+      startingWave: "(Frame number K102, say hi when you pass me!)",
     },
     nav: {
       english: "English",
@@ -67,7 +67,7 @@ const en = {
     questionsTitle: "Questions & feedback",
     questionsCopy:
       "This is the part where I should reveal that I haven’t ridden PBP yet, so there might be assumptions made here that are completely wrong! Please report any bugs on {0}. Feel free to send any other feedback on the platforms below.",
-    signOff: "See you on the road!{0}Mark Allen (90 Hours / Wave K)",
+    signOff: "See you on the road!{0}Mark Allen (90 Hours / K102)",
   },
 };
 

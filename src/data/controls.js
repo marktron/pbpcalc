@@ -5,6 +5,11 @@ const controls = [
     elapsedTime: null,
     location: "Mortagne-au-Perche",
     type: "FOOD",
+    closingTime: {
+      hours80: 422,
+      hours84: 434,
+      hours90: 478,
+    },
   },
   {
     distance: 203,
@@ -12,9 +17,9 @@ const controls = [
     location: "Villaines-la-Juhel",
     type: "CONTROL",
     closingTime: {
-      hours80: 765,
-      hours84: 787,
-      hours90: 868,
+      hours80: 713,
+      hours84: 744,
+      hours90: 809,
     },
   },
   {
@@ -23,9 +28,9 @@ const controls = [
     location: "Fougères",
     type: "CONTROL",
     closingTime: {
-      hours80: 1080,
-      hours84: 1121,
-      hours90: 1224,
+      hours80: 1029,
+      hours84: 1079,
+      hours90: 1166,
     },
   },
   {
@@ -34,9 +39,9 @@ const controls = [
     location: "Tinténiac",
     type: "CONTROL",
     closingTime: {
-      hours80: 1270,
-      hours84: 1323,
-      hours90: 1455,
+      hours80: 1245,
+      hours84: 1308,
+      hours90: 1411,
     },
   },
   {
@@ -44,6 +49,11 @@ const controls = [
     elapsedTime: null,
     location: "Quédillac",
     type: "FOOD",
+    closingTime: {
+      hours80: 1336,
+      hours84: 1406,
+      hours90: 1515,
+    },
   },
   {
     distance: 435.3,
@@ -51,9 +61,9 @@ const controls = [
     location: "Loudéac",
     type: "CONTROL",
     closingTime: {
-      hours80: 1589,
-      hours84: 1642,
-      hours90: 1819,
+      hours80: 1539,
+      hours84: 1621,
+      hours90: 1744,
     },
   },
   {
@@ -61,6 +71,11 @@ const controls = [
     elapsedTime: null,
     location: "St Nicolas-du-Pélem",
     type: "FOOD",
+    closingTime: {
+      hours80: 1713,
+      hours84: 1806,
+      hours90: 1930,
+    },
   },
   {
     distance: 514.9,
@@ -68,9 +83,9 @@ const controls = [
     location: "Carhaix",
     type: "CONTROL",
     closingTime: {
-      hours80: 1874,
-      hours84: 1946,
-      hours90: 2145,
+      hours80: 1833,
+      hours84: 1934,
+      hours90: 2058,
     },
   },
   {
@@ -79,9 +94,9 @@ const controls = [
     location: "Brest",
     type: "CONTROL",
     closingTime: {
-      hours80: 2208,
-      hours84: 2302,
-      hours90: 2526,
+      hours80: 2171,
+      hours84: 2295,
+      hours90: 2419,
     },
   },
   {
@@ -90,8 +105,8 @@ const controls = [
     location: "Carhaix",
     type: "CONTROL",
     closingTime: {
-      hours80: 2542,
-      hours84: 2636,
+      hours80: 2568,
+      hours84: 2694,
       hours90: 2884,
     },
   },
@@ -100,6 +115,11 @@ const controls = [
     elapsedTime: null,
     location: "Gouarec",
     type: "FOOD",
+    closingTime: {
+      hours80: 2707,
+      hours84: 2834,
+      hours90: 3047,
+    },
   },
   {
     distance: 782.2,
@@ -107,9 +127,9 @@ const controls = [
     location: "Loudéac",
     type: "CONTROL",
     closingTime: {
-      hours80: 2900,
-      hours84: 3007,
-      hours90: 3293,
+      hours80: 2933,
+      hours84: 3059,
+      hours90: 3310,
     },
   },
   {
@@ -117,6 +137,11 @@ const controls = [
     elapsedTime: null,
     location: "Quédillac",
     type: "FOOD",
+    closingTime: {
+      hours80: 3192,
+      hours84: 3319,
+      hours90: 3589,
+    },
   },
   {
     distance: 867.3,
@@ -124,9 +149,9 @@ const controls = [
     location: "Tinténiac",
     type: "CONTROL",
     closingTime: {
-      hours80: 3246,
-      hours84: 3378,
-      hours90: 3692,
+      hours80: 3300,
+      hours84: 3426,
+      hours90: 3705,
     },
   },
   {
@@ -135,9 +160,9 @@ const controls = [
     location: "Fougères",
     type: "CONTROL",
     closingTime: {
-      hours80: 3474,
-      hours84: 3617,
-      hours90: 3941,
+      hours80: 3560,
+      hours84: 3686,
+      hours90: 3985,
     },
   },
   {
@@ -146,9 +171,9 @@ const controls = [
     location: "Villaines-la-Juhel",
     type: "CONTROL",
     closingTime: {
-      hours80: 3856,
-      hours84: 4028,
-      hours90: 4366,
+      hours80: 3944,
+      hours84: 4070,
+      hours90: 4401,
     },
   },
   {
@@ -157,9 +182,9 @@ const controls = [
     location: "Mortagne-au-Perche",
     type: "CONTROL",
     closingTime: {
-      hours80: 4236,
-      hours84: 4429,
-      hours90: 4788,
+      hours80: 4292,
+      hours84: 4446,
+      hours90: 4807,
     },
   },
   {
@@ -168,9 +193,9 @@ const controls = [
     location: "Dreux",
     type: "CONTROL",
     closingTime: {
-      hours80: 4594,
-      hours84: 4816,
-      hours90: 5176,
+      hours80: 4622,
+      hours84: 4831,
+      hours90: 5192,
     },
   },
   { distance: 1220, elapsedTime: null, location: "Rambouillet", type: "END" },

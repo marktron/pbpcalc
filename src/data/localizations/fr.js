@@ -6,8 +6,7 @@ const fr = {
     },
     footer: {
       madeBy: "Créé au Canada par",
-      startingWave:
-        "(Je démarre dans la vague K, dites bonjour en me dépassant)",
+      startingWave: "(Numéro de plaque de cadre K102, dites bonjour en me dépassant)",
     },
     nav: {
       english: "Anglais",
@@ -68,7 +67,7 @@ const fr = {
     questionsTitle: "Questions et commentaires",
     questionsCopy:
       "C'est à ce moment que je devrais révéler que je n'ai pas encore participé au PBP, donc il se peut que certaines hypothèses faites ici soient complètement erronées ! Veuillez signaler tout problème sur {0}. N'hésitez pas à envoyer vos commentaires sur les plateformes ci-dessous.",
-    signOff: "À bientôt sur la route !{0}Mark Allen (90 heures / Vague K)",
+    signOff: "À bientôt sur la route !{0}Mark Allen (90 heures / K102)",
   },
 };
 
