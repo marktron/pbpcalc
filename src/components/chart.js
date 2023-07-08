@@ -154,6 +154,28 @@ const Chart = (props) => {
       return false;
     }
   };
+
+  const toolTipClosureTime = (tooltipItems) => {
+    const timeLimit = waveInfo?.timeLimit ? waveInfo?.timeLimit : 90;
+    const controlInfo =
+      tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex];
+    if (
+      controlInfo?.location !== undefined &&
+      controlInfo?.distance !== undefined &&
+      controlInfo?.closingTime !== undefined &&
+      controlInfo?.elapsedTime !== undefined
+    ) {
+    const closedDuration = Duration.fromObject({
+      minutes: controlInfo?.closingTime[`hours${timeLimit}`],
+    });
+    const displayTime = startTime.plus(closedDuration);
+    return `${strings.chart.controlCloses} ${displayTime
+      .setLocale(language)
+      .toFormat("ccc T")}`;
+    }
+    return null;
+  }
+
   const toolTipTimeInHand = (tooltipItems) => {
     const controlInfo =
       tooltipItems[0]?.dataset?.data[tooltipItems[0].dataIndex];
@@ -300,7 +322,8 @@ const Chart = (props) => {
         callbacks: {
           title: toolTipTitle,
           label: toolTipLabel,
-          afterBody: toolTipTimeInHand,
+          afterBody: toolTipClosureTime,
+          beforeFooter: toolTipTimeInHand,
           footer: toolTipFooter,
         },
       },

@@ -22,6 +22,7 @@ const en = {
     night: "Night",
     arrivalTime: "Arrival time",
     departureTime: "Departure time",
+    controlCloses: "Control closes:",
     timeInHand: "Time in hand",
     distanceTo: "Distance to",
     projectedTime: "Projected Time",

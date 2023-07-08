@@ -6,7 +6,8 @@ const fr = {
     },
     footer: {
       madeBy: "Créé au Canada par",
-      startingWave: "(Numéro de plaque de cadre K102, dites bonjour en me dépassant)",
+      startingWave:
+        "(Numéro de plaque de cadre K102, dites bonjour en me dépassant)",
     },
     nav: {
       english: "Anglais",
@@ -22,6 +23,7 @@ const fr = {
     night: "Nuit",
     arrivalTime: "Heure d'arrivée",
     departureTime: "Heure de départ",
+    controlCloses: "Contrôle fermé à",
     timeInHand: "Marge de temps",
     distanceTo: "Distance à",
     projectedTime: "Temps projeté",

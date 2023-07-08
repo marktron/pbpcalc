@@ -203,7 +203,7 @@ export default function GeneralControls(props) {
           <input
             type="text"
             pattern="[0-9]*"
-            inputmode="decimal"
+            inputMode="decimal"
             id="avgSpeedPicker"
             name="avgSpeedPicker"
             value={avgSpeed}
@@ -215,7 +215,7 @@ export default function GeneralControls(props) {
           <input
             type="text"
             pattern="[0-9]*"
-            inputmode="decimal"
+            inputMode="decimal"
             id="avgCtrlTimePicker"
             name="avgCtrlTimePicker"
             value={avgCtrlTime}
